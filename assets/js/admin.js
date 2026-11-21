@@ -240,17 +240,52 @@
         <td>${c.orders}</td><td>${money(c.spent)}</td>
        </tr>`).join("")}</tbody>
       </table>` : '<div class="empty-state">No customer records yet. Customer details will appear here after a demo checkout is submitted.</div>';
-    $("customerOrders").innerHTML = orders.length ? `
-      <table class="inventory-table">
-       <thead><tr><th>ORDER ID</th><th>CUSTOMER</th><th>ITEMS</th><th>TOTAL</th><th>STATUS</th><th>DATE</th></tr></thead>
-       <tbody>${orders.map(o => `<tr>
-        <td>${escapeHTML(o.id)}</td><td>${escapeHTML(o.customer?.name || "—")}<small class="customer-address">${escapeHTML(o.customer?.phone || "")}</small></td>
-        <td>${(o.items || []).map(i => `${escapeHTML(i.name)} (${escapeHTML(i.size || "")})`).join(", ")}</td>
-        <td>${money(o.total)}</td><td>${escapeHTML(o.status || "Pending")}</td>
-        <td>${o.createdAt ? new Date(o.createdAt).toLocaleDateString("en-GB") : "—"}</td>
-       </tr>`).join("")}</tbody>
-      </table>` : '<div class="empty-state">No orders have been placed yet.</div>';
+    renderOrders(orders);
+    renderDashboardOrders(orders);
   }
+
+  function productImageFor(item) {
+    if (item.img) return item.img;
+    const match = products.find(p => String(p.id) === String(item.id) || p.name === item.name);
+    return match?.img || fallbackImage;
+  }
+  function renderOrders(orders = loadOrders()) {
+    $("sidebarOrderCount").textContent = orders.length;
+    $("customerOrders").innerHTML = orders.length ? orders.map(order => `
+      <article class="order-card">
+        <div class="order-card-head">
+          <div><span class="order-id">${escapeHTML(order.id)}</span><small>${order.createdAt ? new Date(order.createdAt).toLocaleString("en-GB") : "—"}</small></div>
+          <select class="order-status-select" data-order-status="${escapeHTML(order.id)}">
+            ${["Pending","Processing","Shipped","Delivered","Cancelled"].map(status => `<option value="${status}" ${(order.status || "Pending") === status ? "selected" : ""}>${status}</option>`).join("")}
+          </select>
+        </div>
+        <div class="order-card-body">
+          <div class="order-customer"><strong>${escapeHTML(order.customer?.name || "Customer")}</strong><span>${escapeHTML(order.customer?.phone || "—")}</span><span>${escapeHTML(order.customer?.email || "—")}</span><small>${escapeHTML(order.customer?.address || "—")}</small></div>
+          <div class="order-items">${(order.items || []).map(item => `
+            <div class="order-item">
+              <img src="${escapeHTML(productImageFor(item))}" alt="${escapeHTML(item.name)}" onerror="this.src='${fallbackImage}'">
+              <div class="order-item-info"><strong>${escapeHTML(item.name)}</strong><small>Size: ${escapeHTML(item.size || "—")} · Qty: ${Number(item.quantity || 1)}</small><b>${money(item.price)}</b></div>
+            </div>`).join("")}
+          </div>
+          <div class="order-total"><small>${escapeHTML(order.paymentMethod || "Payment method")}</small><strong>${money(order.total || 0)}</strong></div>
+        </div>
+      </article>`).join("") : '<div class="empty-state">No orders have been placed yet.</div>';
+  }
+  function renderDashboardOrders(orders = loadOrders()) {
+    $("dashboardRecentOrders").innerHTML = orders.length ? orders.slice(0,4).map(order => `
+      <div class="recent-order-row">
+        <div><strong>${escapeHTML(order.customer?.name || "Customer")}</strong><small>${escapeHTML(order.id)} · ${order.createdAt ? new Date(order.createdAt).toLocaleDateString("en-GB") : ""}</small></div>
+        <strong>${money(order.total || 0)}</strong>
+        <span class="recent-status">${escapeHTML(order.status || "Pending")}</span>
+      </div>`).join("") : '<div class="empty-state">No recent orders yet.</div>';
+  }
+  function updateOrderStatus(id, status) {
+    const orders = loadOrders().map(order => order.id === id ? {...order,status} : order);
+    localStorage.setItem("hossnyOrders", JSON.stringify(orders));
+    renderOrders(orders);
+    renderDashboardOrders(orders);
+  }
+
 
 
   populateProductCategories();
@@ -332,9 +367,31 @@
     }
   });
 
+
+  const viewTitles = {dashboard:"Dashboard",products:"Products",categories:"Categories",orders:"Orders",customers:"Customers",homepage:"Homepage"};
+  function showAdminView(viewName) {
+    document.querySelectorAll("[data-view-panel]").forEach(panel => panel.classList.toggle("active", panel.dataset.viewPanel === viewName));
+    document.querySelectorAll("[data-admin-view]").forEach(button => button.classList.toggle("active", button.dataset.adminView === viewName));
+    $("activeViewTitle").textContent = viewTitles[viewName] || "Dashboard";
+    localStorage.setItem("hossnyAdminView", viewName);
+    document.body.classList.remove("sidebar-open");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+  document.querySelectorAll("[data-admin-view]").forEach(button => button.addEventListener("click", () => showAdminView(button.dataset.adminView)));
+  document.querySelectorAll("[data-go-view]").forEach(button => button.addEventListener("click", () => showAdminView(button.dataset.goView)));
+  $("sidebarMobileToggle").addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
+  document.addEventListener("click", event => {
+    const statusSelect = event.target.closest("[data-order-status]");
+    if (statusSelect) updateOrderStatus(statusSelect.dataset.orderStatus, statusSelect.value);
+    if (document.body.classList.contains("sidebar-open") && !event.target.closest(".admin-sidebar") && !event.target.closest("#sidebarMobileToggle")) {
+      document.body.classList.remove("sidebar-open");
+    }
+  });
+
   $("todayLabel").textContent = new Date().toLocaleDateString("en-GB", {
     weekday:"short", day:"2-digit", month:"short", year:"numeric"
   });
   render();
   renderCustomers();
+  showAdminView(localStorage.getItem("hossnyAdminView") || "dashboard");
 })();

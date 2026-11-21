@@ -82,7 +82,7 @@ function placeDemoOrder(){
  const name=document.getElementById('checkoutName').value.trim(),phone=document.getElementById('checkoutPhone').value.trim(),email=document.getElementById('checkoutEmail').value.trim(),address=document.getElementById('checkoutAddress').value.trim();
  if(!name||!phone||!address){document.getElementById('checkoutMessage').textContent='Please enter your name, phone number and address.';return}
  const orders=JSON.parse(localStorage.getItem('hossnyOrders')||'[]');
- orders.unshift({id:'HS-'+Date.now(),customer:{name,phone,email,address},items:cart.map(p=>({id:p.id,name:p.name,price:p.price,size:p.size,quantity:1})),total:cart.reduce((a,p)=>a+p.price,0),paymentMethod:document.getElementById('checkoutPayment').value,status:'Pending',createdAt:new Date().toISOString()});
+ orders.unshift({id:'HS-'+Date.now(),customer:{name,phone,email,address},items:cart.map(p=>({id:p.id,name:p.name,price:p.price,size:p.size,quantity:1,img:p.img})),total:cart.reduce((a,p)=>a+p.price,0),paymentMethod:document.getElementById('checkoutPayment').value,status:'Pending',createdAt:new Date().toISOString()});
  localStorage.setItem('hossnyOrders',JSON.stringify(orders));cart=[];render();
  document.getElementById('drawerContent').innerHTML='<h3>THANK YOU!</h3><p>Your demo order has been saved in this browser. HOSSNY will contact you to confirm it.</p>';setTimeout(closePanels,2800);
 }

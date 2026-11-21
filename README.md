@@ -1,4 +1,4 @@
-# HOSSNY®  — GitHub Pages
+# HOSSNY® Streetwear — GitHub Pages
 
 Organized static storefront built from the original HOSSNY HTML design.
 
@@ -53,3 +53,6 @@ The shared top-right controls switch between light/dark themes and English/Arabi
 - Admin can edit hero headline, description, button, background image, collection heading, and promotional banner text/image.
 - Admin can add multiple custom homepage sections with a title, description, image URL, and optional button.
 - These settings are currently stored in this browser's LocalStorage demo store. For changes to appear across devices and customers, connect Firebase in the next phase.
+
+## Admin dashboard layout and order images
+The admin page now uses a sidebar navigation (Dashboard, Products, Categories, Orders, Customers, Homepage). The sidebar follows page direction: left in English and right in Arabic. Orders display customer details, product thumbnails, sizes, quantities, totals, and editable fulfillment status. New checkout orders save each product image URL with the order item. Existing older orders attempt to retrieve the image from the current product catalogue.

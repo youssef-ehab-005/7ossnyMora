@@ -57,7 +57,7 @@
     "STATUS":"الحالة","DATE":"التاريخ","No customer records yet. Customer details will appear here after a demo checkout is submitted.":"لا توجد بيانات عملاء بعد. ستظهر بيانات العميل هنا بعد إتمام طلب تجريبي.",
     "No orders have been placed yet.":"لم يتم تسجيل أي طلبات حتى الآن.","customers recorded from demo orders":"عميل مسجل من الطلبات التجريبية",
     "Address not provided":"لم يتم إدخال العنوان","Pending":"قيد الانتظار","Processing":"قيد التجهيز","Shipped":"تم الشحن",
-    "Delivered":"تم التوصيل","Cancelled":"ملغي","BLACK / WHITE":"أسود / أبيض","BEST SELLER":"الأكثر مبيعاً","NEW DROP":"مجموعة جديدة","LIMITED":"كمية محدودة","NEW":"جديد","HOT":"الأكثر طلباً","YOUR BAG":"سلة مشترياتك","PRODUCTS":"منتجات"
+    "Delivered":"تم التوصيل","Cancelled":"ملغي","BLACK / WHITE":"أسود / أبيض","CONTROL CENTER":"لوحة التحكم","Dashboard":"لوحة التحكم","Products":"المنتجات","Categories":"التصنيفات","Orders":"الطلبات","Customers":"العملاء","Homepage":"الصفحة الرئيسية","LOCAL DEMO MODE":"وضع تجريبي محلي","LATEST ACTIVITY":"أحدث النشاطات","Recent orders":"أحدث الطلبات","VIEW ALL ORDERS":"عرض كل الطلبات","VIEW STORE":"عرض المتجر","LOCAL DEMO ADMIN":"إدارة تجريبية محلية","Pending":"قيد الانتظار","Processing":"قيد التجهيز","Shipped":"تم الشحن","Delivered":"تم التوصيل","Cancelled":"ملغي","Payment method":"طريقة الدفع","Customer":"العميل","Size:":"المقاس:","Qty:":"الكمية:","BEST SELLER":"الأكثر مبيعاً","NEW DROP":"مجموعة جديدة","LIMITED":"كمية محدودة","NEW":"جديد","HOT":"الأكثر طلباً","YOUR BAG":"سلة مشترياتك","PRODUCTS":"منتجات"
   };
 
   let language = localStorage.getItem(LANG_KEY) || "en";

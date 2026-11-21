@@ -1,168 +1,146 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>HOSSNY® — Admin</title>
-<link rel="stylesheet" href="assets/css/style.css">
-<link rel="stylesheet" href="assets/css/admin.css">
-<link rel="stylesheet" href="assets/css/ui.css">
-<script src="assets/js/ui.js" defer></script>
-<script src="assets/js/admin.js" defer></script>
+<link href="assets/css/style.css" rel="stylesheet"/>
+<link href="assets/css/admin.css" rel="stylesheet"/>
+<link href="assets/css/ui.css" rel="stylesheet"/>
+<script defer="" src="assets/js/ui.js"></script>
+<script defer="" src="assets/js/admin.js"></script>
 </head>
 <body class="admin-page">
-<div class="global-tools" aria-label="Display settings">
-  <button class="ui-tool theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme"><span class="theme-icon">☾</span></button>
-  <button class="ui-tool language-toggle" type="button" data-language-toggle aria-label="Change language">AR</button>
+<div aria-label="Display settings" class="global-tools">
+<button aria-label="Switch theme" class="ui-tool theme-toggle" data-theme-toggle="" title="Switch theme" type="button"><span class="theme-icon">☾</span></button>
+<button aria-label="Change language" class="ui-tool language-toggle" data-language-toggle="" type="button">AR</button>
 </div>
 <div class="announcement">HOSSNY® / STORE MANAGEMENT</div>
-<header class="admin-topbar">
-  <a class="logo" href="index.html">HOSSNY<span>®</span></a>
-  <div class="admin-top-actions">
-    <span class="admin-mode">LOCAL DEMO ADMIN</span>
-    <a class="outline admin-store-link" href="index.html">VIEW STORE ↗</a>
-  </div>
+<header class="admin-topbar"><div class="topbar-left"><button aria-label="Open navigation" class="sidebar-mobile-toggle" id="sidebarMobileToggle" type="button">☰</button><a class="logo" href="index.html">HOSSNY<span>®</span></a></div>
+
+<div class="admin-top-actions"><span class="admin-mode">LOCAL DEMO ADMIN</span></div>
 </header>
-
-<main class="admin-shell">
-  <section class="admin-heading">
-    <div>
-      <div class="eyebrow">STORE MANAGEMENT</div>
-      <h1>Dashboard<span>.</span></h1>
-      <p>Manage your HOSSNY products from one place.</p>
-    </div>
-    <div class="admin-date" id="todayLabel"></div>
-  </section>
-
-  <section class="admin-stats">
-    <article class="admin-stat"><small>TOTAL PRODUCTS</small><strong id="totalProducts">0</strong></article>
-    <article class="admin-stat"><small>PRODUCT CATEGORIES</small><strong id="totalCategories">0</strong></article>
-    <article class="admin-stat"><small>STORAGE</small><strong>THIS BROWSER</strong></article>
-  </section>
-
-  <section class="admin-panel">
-    <div class="panel-heading">
-      <div><div class="eyebrow">CATALOGUE</div><h2 id="formHeading">Add a product<span>.</span></h2></div>
-      <span class="panel-step" id="formMode">NEW ITEM</span>
-    </div>
-    <form id="productForm" class="product-form">
-      <input type="hidden" id="productId">
-      <label>Product name<input id="productName" type="text" placeholder="e.g. OVERSIZED CORE TEE" required maxlength="80"></label>
-      <div class="form-grid">
-        <label>Price (EGP)<input id="productPrice" type="number" min="1" step="1" placeholder="590" required></label>
-        <label>Category<select id="productCategory" required><option value="T-Shirts">T-Shirts</option><option value="Hoodies">Hoodies</option><option value="Pants">Pants</option><option value="Accessories">Accessories</option></select></label>
-      </div>
-      <div class="form-grid">
-        <label>Product label<input id="productTag" type="text" placeholder="NEW / BEST SELLER (optional)" maxlength="24"></label>
-        <label>Image URL<input id="productImage" type="url" placeholder="https://..."></label>
-      </div>
-      <div class="form-actions">
-        <button class="cta" type="submit" id="saveButton">SAVE PRODUCT</button>
-        <button class="outline" type="button" id="resetButton">CLEAR FORM</button>
-      </div>
-      <p class="form-message" id="formMessage" role="status"></p>
-    </form>
-  </section>
-
-
-  <section class="admin-panel">
-    <div class="panel-heading">
-      <div><div class="eyebrow">STORE CATEGORIES</div><h2>Manage categories<span>.</span></h2></div>
-    </div>
-    <form id="categoryForm" class="product-form category-form">
-      <div class="form-grid">
-        <label>New category name<input id="categoryName" type="text" placeholder="e.g. Shoes / Caps" maxlength="35" required></label>
-        <label>Category name in Arabic (optional)<input id="categoryNameAr" type="text" placeholder="مثال: أحذية"></label>
-      </div>
-      <button class="cta" type="submit">ADD CATEGORY</button>
-      <p class="form-message" id="categoryMessage" role="status"></p>
-    </form>
-    <div id="categoriesManager" class="category-manager"></div>
-  </section>
-
-  <section class="admin-panel">
-    <div class="panel-heading">
-      <div><div class="eyebrow">HOMEPAGE CONTENT</div><h2>Edit main homepage<span>.</span></h2></div>
-      <span class="panel-step">HERO & BANNER</span>
-    </div>
-    <form id="homeForm" class="product-form">
-      <h3 class="editor-subtitle">Main hero section</h3>
-      <label>Small heading<input id="heroEyebrow" type="text" placeholder="HOSSNY® / NEW SEASON"></label>
-      <label>Main headline<input id="heroTitle" type="text" placeholder="OWN YOUR STREET."></label>
-      <label>Description<textarea id="heroDescription" rows="3" placeholder="Write the main homepage description..."></textarea></label>
-      <div class="form-grid">
-        <label>Button text<input id="heroButton" type="text" placeholder="SHOP THE DROP"></label>
-        <label>Hero background image URL<input id="heroImage" type="url" placeholder="https://..."></label>
-      </div>
-      <hr class="editor-divider">
-      <h3 class="editor-subtitle">Collection section</h3>
-      <div class="form-grid">
-        <label>Small heading<input id="collectionEyebrow" type="text" placeholder="THE COLLECTION"></label>
-        <label>Section title<input id="collectionTitle" type="text" placeholder="FRESH PICKS"></label>
-      </div>
-      <label>Collection description<input id="collectionDescription" type="text" placeholder="Everyday pieces. Different energy."></label>
-      <hr class="editor-divider">
-      <h3 class="editor-subtitle">Second banner section</h3>
-      <label>Small heading<input id="bannerEyebrow" type="text" placeholder="NOT HERE TO BLEND IN"></label>
-      <label>Banner headline<input id="bannerTitle" type="text" placeholder="MAKE YOUR MOVE."></label>
-      <label>Banner description<textarea id="bannerDescription" rows="3" placeholder="Write banner description..."></textarea></label>
-      <div class="form-grid">
-        <label>Button text<input id="bannerButton" type="text" placeholder="EXPLORE THE COLLECTION"></label>
-        <label>Banner background image URL<input id="bannerImage" type="url" placeholder="https://..."></label>
-      </div>
-      <div class="form-actions">
-        <button class="cta" type="submit">SAVE HOMEPAGE</button>
-        <button class="outline" type="button" id="resetHomeButton">RESET DEFAULTS</button>
-      </div>
-      <p class="form-message" id="homeMessage" role="status"></p>
-    </form>
-  </section>
-
-  <section class="admin-panel">
-    <div class="panel-heading">
-      <div><div class="eyebrow">EXTRA HOMEPAGE BLOCKS</div><h2>Create homepage sections<span>.</span></h2></div>
-    </div>
-    <form id="sectionForm" class="product-form">
-      <div class="form-grid">
-        <label>Section title<input id="sectionTitle" type="text" placeholder="e.g. OUR NEW DROP" required></label>
-        <label>Arabic title (optional)<input id="sectionTitleAr" type="text" placeholder="مثال: أحدث مجموعة"></label>
-      </div>
-      <label>Section description<textarea id="sectionDescription" rows="2" placeholder="Write section content..."></textarea></label>
-      <div class="form-grid">
-        <label>Image URL<input id="sectionImage" type="url" placeholder="https://..."></label>
-        <label>Button text (optional)<input id="sectionButton" type="text" placeholder="DISCOVER MORE"></label>
-      </div>
-      <button class="cta" type="submit">ADD HOMEPAGE SECTION</button>
-      <p class="form-message" id="sectionMessage" role="status"></p>
-    </form>
-    <div id="homeSectionsManager" class="home-sections-manager"></div>
-  </section>
-
-  <section class="admin-panel inventory-panel">
-    <div class="panel-heading inventory-heading">
-      <div><div class="eyebrow">YOUR COLLECTION</div><h2>Product inventory<span>.</span></h2></div>
-      <input id="searchProducts" class="search-input" type="search" placeholder="Search products...">
-    </div>
-    <div id="inventory" class="inventory-list"></div>
-  </section>
-
-  <section class="admin-panel customers-panel">
-    <div class="panel-heading inventory-heading">
-      <div><div class="eyebrow">CUSTOMER DATABASE</div><h2>Customer details<span>.</span></h2></div>
-      <input id="searchCustomers" class="search-input" type="search" placeholder="Search name / phone / email...">
-    </div>
-    <div class="customer-summary" id="customerSummary">0 customers</div>
-    <div id="customersList" class="inventory-list"></div>
-  </section>
-  <section class="admin-panel customer-orders-panel">
-    <div class="panel-heading">
-      <div><div class="eyebrow">ORDER HISTORY</div><h2>Customer orders<span>.</span></h2></div>
-    </div>
-    <div id="customerOrders" class="inventory-list"></div>
-  </section>
-
-  <p class="admin-warning"><strong>Demo mode:</strong> Product changes are saved in this browser's LocalStorage only. They are not shared with customers on other devices yet. We will connect Firebase next for shared products, secure admin login and customer orders.</p>
-</main>
+<main class="admin-shell"><div class="admin-layout"><aside aria-label="Admin navigation" class="admin-sidebar"><div class="sidebar-brand"><span class="sidebar-brand-mark">H</span><div><strong>HOSSNY<span>®</span></strong><small>CONTROL CENTER</small></div></div><nav class="sidebar-nav"><button class="sidebar-link active" data-admin-view="dashboard" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="grid-2x2"></span><span>Dashboard</span></button><button class="sidebar-link" data-admin-view="products" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="package"></span><span>Products</span></button><button class="sidebar-link" data-admin-view="categories" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="tags"></span><span>Categories</span></button><button class="sidebar-link" data-admin-view="orders" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="shopping-bag"></span><span>Orders</span><span class="sidebar-count" id="sidebarOrderCount">0</span></button><button class="sidebar-link" data-admin-view="customers" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="users"></span><span>Customers</span></button><button class="sidebar-link" data-admin-view="homepage" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="panels-top-left"></span><span>Homepage</span></button></nav><div class="sidebar-footer"><span class="sidebar-status-dot"></span><span>LOCAL DEMO MODE</span></div></aside><div class="admin-content"><div class="workspace-head"><div><div class="eyebrow">HOSSNY® / ADMINISTRATION</div><h1 id="activeViewTitle">Dashboard</h1></div><div class="workspace-actions"><span class="admin-date" id="todayLabel"></span><a class="outline admin-store-link" href="index.html">VIEW STORE ↗</a></div></div><section aria-label="Dashboard" class="admin-view active" data-view-panel="dashboard"><section class="admin-heading">
+<div>
+<div class="eyebrow">STORE MANAGEMENT</div>
+<h1>Dashboard<span>.</span></h1>
+<p>Manage your HOSSNY products from one place.</p>
+</div>
+<div class="admin-date" id="todayLabel"></div>
+</section><section class="admin-stats">
+<article class="admin-stat"><small>TOTAL PRODUCTS</small><strong id="totalProducts">0</strong></article>
+<article class="admin-stat"><small>PRODUCT CATEGORIES</small><strong id="totalCategories">0</strong></article>
+<article class="admin-stat"><small>STORAGE</small><strong>THIS BROWSER</strong></article>
+</section><section class="admin-panel"><div class="panel-heading"><div><div class="eyebrow">LATEST ACTIVITY</div><h2>Recent orders<span>.</span></h2></div><button class="text-action" data-go-view="orders" type="button">VIEW ALL ORDERS ↗</button></div><div class="recent-orders-list" id="dashboardRecentOrders"></div></section></section><section aria-label="Products" class="admin-view" data-view-panel="products"><section class="admin-panel">
+<div class="panel-heading">
+<div><div class="eyebrow">CATALOGUE</div><h2 id="formHeading">Add a product<span>.</span></h2></div>
+<span class="panel-step" id="formMode">NEW ITEM</span>
+</div>
+<form class="product-form" id="productForm">
+<input id="productId" type="hidden"/>
+<label>Product name<input id="productName" maxlength="80" placeholder="e.g. OVERSIZED CORE TEE" required="" type="text"/></label>
+<div class="form-grid">
+<label>Price (EGP)<input id="productPrice" min="1" placeholder="590" required="" step="1" type="number"/></label>
+<label>Category<select id="productCategory" required=""><option value="T-Shirts">T-Shirts</option><option value="Hoodies">Hoodies</option><option value="Pants">Pants</option><option value="Accessories">Accessories</option></select></label>
+</div>
+<div class="form-grid">
+<label>Product label<input id="productTag" maxlength="24" placeholder="NEW / BEST SELLER (optional)" type="text"/></label>
+<label>Image URL<input id="productImage" placeholder="https://..." type="url"/></label>
+</div>
+<div class="form-actions">
+<button class="cta" id="saveButton" type="submit">SAVE PRODUCT</button>
+<button class="outline" id="resetButton" type="button">CLEAR FORM</button>
+</div>
+<p class="form-message" id="formMessage" role="status"></p>
+</form>
+</section><section class="admin-panel inventory-panel">
+<div class="panel-heading inventory-heading">
+<div><div class="eyebrow">YOUR COLLECTION</div><h2>Product inventory<span>.</span></h2></div>
+<input class="search-input" id="searchProducts" placeholder="Search products..." type="search"/>
+</div>
+<div class="inventory-list" id="inventory"></div>
+</section></section><section aria-label="Categories" class="admin-view" data-view-panel="categories"><section class="admin-panel">
+<div class="panel-heading">
+<div><div class="eyebrow">STORE CATEGORIES</div><h2>Manage categories<span>.</span></h2></div>
+</div>
+<form class="product-form category-form" id="categoryForm">
+<div class="form-grid">
+<label>New category name<input id="categoryName" maxlength="35" placeholder="e.g. Shoes / Caps" required="" type="text"/></label>
+<label>Category name in Arabic (optional)<input id="categoryNameAr" placeholder="مثال: أحذية" type="text"/></label>
+</div>
+<button class="cta" type="submit">ADD CATEGORY</button>
+<p class="form-message" id="categoryMessage" role="status"></p>
+</form>
+<div class="category-manager" id="categoriesManager"></div>
+</section></section><section aria-label="Orders" class="admin-view" data-view-panel="orders"><section class="admin-panel customer-orders-panel">
+<div class="panel-heading">
+<div><div class="eyebrow">ORDER HISTORY</div><h2>Customer orders<span>.</span></h2></div>
+</div>
+<div class="inventory-list" id="customerOrders"></div>
+</section></section><section aria-label="Customers" class="admin-view" data-view-panel="customers"><section class="admin-panel customers-panel">
+<div class="panel-heading inventory-heading">
+<div><div class="eyebrow">CUSTOMER DATABASE</div><h2>Customer details<span>.</span></h2></div>
+<input class="search-input" id="searchCustomers" placeholder="Search name / phone / email..." type="search"/>
+</div>
+<div class="customer-summary" id="customerSummary">0 customers</div>
+<div class="inventory-list" id="customersList"></div>
+</section></section><section aria-label="Homepage" class="admin-view" data-view-panel="homepage"><section class="admin-panel">
+<div class="panel-heading">
+<div><div class="eyebrow">HOMEPAGE CONTENT</div><h2>Edit main homepage<span>.</span></h2></div>
+<span class="panel-step">HERO &amp; BANNER</span>
+</div>
+<form class="product-form" id="homeForm">
+<h3 class="editor-subtitle">Main hero section</h3>
+<label>Small heading<input id="heroEyebrow" placeholder="HOSSNY® / NEW SEASON" type="text"/></label>
+<label>Main headline<input id="heroTitle" placeholder="OWN YOUR STREET." type="text"/></label>
+<label>Description<textarea id="heroDescription" placeholder="Write the main homepage description..." rows="3"></textarea></label>
+<div class="form-grid">
+<label>Button text<input id="heroButton" placeholder="SHOP THE DROP" type="text"/></label>
+<label>Hero background image URL<input id="heroImage" placeholder="https://..." type="url"/></label>
+</div>
+<hr class="editor-divider"/>
+<h3 class="editor-subtitle">Collection section</h3>
+<div class="form-grid">
+<label>Small heading<input id="collectionEyebrow" placeholder="THE COLLECTION" type="text"/></label>
+<label>Section title<input id="collectionTitle" placeholder="FRESH PICKS" type="text"/></label>
+</div>
+<label>Collection description<input id="collectionDescription" placeholder="Everyday pieces. Different energy." type="text"/></label>
+<hr class="editor-divider"/>
+<h3 class="editor-subtitle">Second banner section</h3>
+<label>Small heading<input id="bannerEyebrow" placeholder="NOT HERE TO BLEND IN" type="text"/></label>
+<label>Banner headline<input id="bannerTitle" placeholder="MAKE YOUR MOVE." type="text"/></label>
+<label>Banner description<textarea id="bannerDescription" placeholder="Write banner description..." rows="3"></textarea></label>
+<div class="form-grid">
+<label>Button text<input id="bannerButton" placeholder="EXPLORE THE COLLECTION" type="text"/></label>
+<label>Banner background image URL<input id="bannerImage" placeholder="https://..." type="url"/></label>
+</div>
+<div class="form-actions">
+<button class="cta" type="submit">SAVE HOMEPAGE</button>
+<button class="outline" id="resetHomeButton" type="button">RESET DEFAULTS</button>
+</div>
+<p class="form-message" id="homeMessage" role="status"></p>
+</form>
+</section><section class="admin-panel">
+<div class="panel-heading">
+<div><div class="eyebrow">EXTRA HOMEPAGE BLOCKS</div><h2>Create homepage sections<span>.</span></h2></div>
+</div>
+<form class="product-form" id="sectionForm">
+<div class="form-grid">
+<label>Section title<input id="sectionTitle" placeholder="e.g. OUR NEW DROP" required="" type="text"/></label>
+<label>Arabic title (optional)<input id="sectionTitleAr" placeholder="مثال: أحدث مجموعة" type="text"/></label>
+</div>
+<label>Section description<textarea id="sectionDescription" placeholder="Write section content..." rows="2"></textarea></label>
+<div class="form-grid">
+<label>Image URL<input id="sectionImage" placeholder="https://..." type="url"/></label>
+<label>Button text (optional)<input id="sectionButton" placeholder="DISCOVER MORE" type="text"/></label>
+</div>
+<button class="cta" type="submit">ADD HOMEPAGE SECTION</button>
+<p class="form-message" id="sectionMessage" role="status"></p>
+</form>
+<div class="home-sections-manager" id="homeSectionsManager"></div>
+</section></section><p class="admin-warning"><strong>Demo mode:</strong> Product changes are saved in this browser's LocalStorage only. They are not shared with customers on other devices yet. We will connect Firebase next for shared products, secure admin login and customer orders.</p></div></div></main>
 <footer class="admin-footer"><span>© 2026 HOSSNY®. ALL RIGHTS RESERVED.</span><a href="index.html">BACK TO STORE</a></footer>
 </body>
 </html>

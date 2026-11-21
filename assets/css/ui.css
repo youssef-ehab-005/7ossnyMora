@@ -45,3 +45,75 @@ body.is-ar .admin-top-actions{direction:rtl}
 body.is-ar .admin-date{text-align:left}
 body.is-ar .copyright a{float:left!important}
 @media(max-width:600px){.global-tools{top:120px;right:10px;gap:6px}.ui-tool{width:34px;height:34px}.global-tools{position:fixed}body.is-ar .global-tools{left:10px;right:auto}}
+
+
+/* Dark mode: keep admin forms readable and inputs bright */
+body.admin-page.dark-theme {
+  background: #111;
+  color: #f4f3ef;
+}
+body.admin-page.dark-theme .admin-panel {
+  background: #1b1b1b !important;
+  color: #f4f3ef !important;
+  border-color: #3a3a3a !important;
+}
+body.admin-page.dark-theme .admin-panel .panel-heading h2,
+body.admin-page.dark-theme .admin-panel .eyebrow,
+body.admin-page.dark-theme .admin-panel .product-form label,
+body.admin-page.dark-theme .admin-panel .editor-subtitle,
+body.admin-page.dark-theme .admin-panel .category-row strong,
+body.admin-page.dark-theme .admin-panel .inventory-table td,
+body.admin-page.dark-theme .admin-panel .inventory-table th {
+  color: #f4f3ef !important;
+}
+body.admin-page.dark-theme .admin-panel .product-form input,
+body.admin-page.dark-theme .admin-panel .product-form select,
+body.admin-page.dark-theme .admin-panel .product-form textarea,
+body.admin-page.dark-theme .admin-panel .search-input {
+  background: #fff !important;
+  color: #171717 !important;
+  border: 1px solid #c9c9c9 !important;
+  caret-color: #171717;
+}
+body.admin-page.dark-theme .admin-panel .product-form input::placeholder,
+body.admin-page.dark-theme .admin-panel .product-form textarea::placeholder,
+body.admin-page.dark-theme .admin-panel .search-input::placeholder {
+  color: #777 !important;
+  opacity: 1;
+}
+body.admin-page.dark-theme .admin-panel .product-form select option {
+  background: #fff;
+  color: #171717;
+}
+body.admin-page.dark-theme .admin-panel .product-form input:focus,
+body.admin-page.dark-theme .admin-panel .product-form select:focus,
+body.admin-page.dark-theme .admin-panel .product-form textarea:focus,
+body.admin-page.dark-theme .admin-panel .search-input:focus {
+  outline: 2px solid #ff5a1f;
+  outline-offset: 1px;
+  border-color: #ff5a1f !important;
+}
+body.admin-page.dark-theme .admin-panel .form-message,
+body.admin-page.dark-theme .admin-panel .category-row small,
+body.admin-page.dark-theme .admin-panel .stock-label {
+  color: #c4c4c4 !important;
+}
+body.admin-page.dark-theme .admin-panel .panel-step {
+  background: #333 !important;
+  color: #f4f3ef !important;
+}
+body.admin-page.dark-theme .admin-panel .category-row,
+body.admin-page.dark-theme .admin-panel .editor-divider,
+body.admin-page.dark-theme .admin-panel .category-manager,
+body.admin-page.dark-theme .admin-panel .home-sections-manager,
+body.admin-page.dark-theme .admin-panel .inventory-table th,
+body.admin-page.dark-theme .admin-panel .inventory-table td {
+  border-color: #3a3a3a !important;
+}
+body.admin-page.dark-theme .admin-panel .empty-state {
+  color: #c4c4c4 !important;
+}
+body.admin-page.dark-theme .admin-panel .outline {
+  color: #f4f3ef;
+  border-color: #777;
+}
