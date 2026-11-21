@@ -1,4 +1,4 @@
-# HOSSNY® Streetwear — GitHub Pages
+# HOSSNY®  — GitHub Pages
 
 Organized static storefront built from the original HOSSNY HTML design.
 
