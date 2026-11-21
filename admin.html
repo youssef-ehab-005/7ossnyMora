@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HOSSNY® — Admin</title>
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/admin.css">
+<script src="assets/js/admin.js" defer></script>
+</head>
+<body class="admin-page">
+<div class="announcement">HOSSNY® / STORE MANAGEMENT</div>
+<header class="admin-topbar">
+  <a class="logo" href="index.html">HOSSNY<span>®</span></a>
+  <div class="admin-top-actions">
+    <span class="admin-mode">LOCAL DEMO ADMIN</span>
+    <a class="outline admin-store-link" href="index.html">VIEW STORE ↗</a>
+  </div>
+</header>
+
+<main class="admin-shell">
+  <section class="admin-heading">
+    <div>
+      <div class="eyebrow">STORE MANAGEMENT</div>
+      <h1>Dashboard<span>.</span></h1>
+      <p>Manage your HOSSNY products from one place.</p>
+    </div>
+    <div class="admin-date" id="todayLabel"></div>
+  </section>
+
+  <section class="admin-stats">
+    <article class="admin-stat"><small>TOTAL PRODUCTS</small><strong id="totalProducts">0</strong></article>
+    <article class="admin-stat"><small>PRODUCT CATEGORIES</small><strong id="totalCategories">0</strong></article>
+    <article class="admin-stat"><small>STORAGE</small><strong>THIS BROWSER</strong></article>
+  </section>
+
+  <section class="admin-panel">
+    <div class="panel-heading">
+      <div><div class="eyebrow">CATALOGUE</div><h2 id="formHeading">Add a product<span>.</span></h2></div>
+      <span class="panel-step" id="formMode">NEW ITEM</span>
+    </div>
+    <form id="productForm" class="product-form">
+      <input type="hidden" id="productId">
+      <label>Product name<input id="productName" type="text" placeholder="e.g. OVERSIZED CORE TEE" required maxlength="80"></label>
+      <div class="form-grid">
+        <label>Price (EGP)<input id="productPrice" type="number" min="1" step="1" placeholder="590" required></label>
+        <label>Category<select id="productCategory" required><option value="T-Shirts">T-Shirts</option><option value="Hoodies">Hoodies</option><option value="Pants">Pants</option><option value="Accessories">Accessories</option></select></label>
+      </div>
+      <div class="form-grid">
+        <label>Product label<input id="productTag" type="text" placeholder="NEW / BEST SELLER (optional)" maxlength="24"></label>
+        <label>Image URL<input id="productImage" type="url" placeholder="https://..."></label>
+      </div>
+      <div class="form-actions">
+        <button class="cta" type="submit" id="saveButton">SAVE PRODUCT</button>
+        <button class="outline" type="button" id="resetButton">CLEAR FORM</button>
+      </div>
+      <p class="form-message" id="formMessage" role="status"></p>
+    </form>
+  </section>
+
+  <section class="admin-panel inventory-panel">
+    <div class="panel-heading inventory-heading">
+      <div><div class="eyebrow">YOUR COLLECTION</div><h2>Product inventory<span>.</span></h2></div>
+      <input id="searchProducts" class="search-input" type="search" placeholder="Search products...">
+    </div>
+    <div id="inventory" class="inventory-list"></div>
+  </section>
+
+  <section class="admin-panel customers-panel">
+    <div class="panel-heading inventory-heading">
+      <div><div class="eyebrow">CUSTOMER DATABASE</div><h2>Customer details<span>.</span></h2></div>
+      <input id="searchCustomers" class="search-input" type="search" placeholder="Search name / phone / email...">
+    </div>
+    <div class="customer-summary" id="customerSummary">0 customers</div>
+    <div id="customersList" class="inventory-list"></div>
+  </section>
+  <section class="admin-panel customer-orders-panel">
+    <div class="panel-heading">
+      <div><div class="eyebrow">ORDER HISTORY</div><h2>Customer orders<span>.</span></h2></div>
+    </div>
+    <div id="customerOrders" class="inventory-list"></div>
+  </section>
+
+  <p class="admin-warning"><strong>Demo mode:</strong> Product changes are saved in this browser's LocalStorage only. They are not shared with customers on other devices yet. We will connect Firebase next for shared products, secure admin login and customer orders.</p>
+</main>
+<footer class="admin-footer"><span>© 2026 HOSSNY®. ALL RIGHTS RESERVED.</span><a href="index.html">BACK TO STORE</a></footer>
+</body>
+</html>

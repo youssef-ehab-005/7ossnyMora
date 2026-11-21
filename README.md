@@ -7,11 +7,14 @@ Organized static storefront built from the original HOSSNY HTML design.
 ```text
 HOSSNY/
 ├── index.html
+├── admin.html
 ├── assets/
 │   ├── css/
-│   │   └── style.css
+│   │   ├── style.css
+│   │   └── admin.css
 │   └── js/
-│       └── app.js
+│       ├── app.js
+│       └── admin.js
 ├── .nojekyll
 └── README.md
 ```
@@ -34,3 +37,9 @@ Open `index.html` in a browser. No build tools, npm packages, or backend are req
 
 ## Firebase phase
 Firebase integration will be added later in a separate configuration/module structure, while keeping the storefront design unchanged.
+
+## Admin page
+Open `admin.html` or click **ADMIN** in the storefront footer. It supports adding, editing, searching and deleting products using the same `hossnyProducts` LocalStorage key as the storefront. This is a demo only; there is no secure login or cross-device sync until Firebase is connected.
+
+## Customer details (demo)
+The checkout demo now collects customer name, phone, optional email, and delivery address. Submitted demo orders are stored in the same browser's LocalStorage. The Admin page shows customer records, order counts, total spend, and order history. This data is local to the browser and is not a real shared customer database until Firebase is connected.

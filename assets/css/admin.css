@@ -1,0 +1,50 @@
+body.admin-page{background:#f4f3ef;min-height:100vh}
+.admin-topbar{height:76px;padding:0 5vw;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #deddd7}
+.admin-top-actions{display:flex;align-items:center;gap:18px}
+.admin-mode{font-size:10px;font-weight:900;letter-spacing:1.2px;color:#777}
+.admin-store-link{margin:0}
+.admin-shell{max-width:1180px;margin:0 auto;padding:55px 5vw 70px}
+.admin-heading{display:flex;justify-content:space-between;align-items:end;margin-bottom:28px}
+.admin-heading h1{font:900 clamp(42px,7vw,72px)/.95 'Space Grotesk';letter-spacing:-4px;margin:12px 0}
+.admin-heading h1 span,.panel-heading h2 span{color:var(--accent)}
+.admin-heading p{font-size:13px;color:#777;margin:0}
+.admin-date{font-size:11px;font-weight:800;color:#777}
+.admin-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
+.admin-stat{background:#fff;border:1px solid #deddd7;padding:20px}
+.admin-stat small{font-size:10px;letter-spacing:1px;font-weight:900;color:#777}
+.admin-stat strong{display:block;font:900 25px 'Space Grotesk';margin-top:10px}
+.admin-panel{background:#fff;border:1px solid #deddd7;padding:25px;margin-bottom:20px}
+.panel-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.panel-heading h2{font:900 clamp(25px,4vw,36px)/1 'Space Grotesk';letter-spacing:-1.5px;margin:8px 0 0}
+.panel-step{font-size:9px;font-weight:900;letter-spacing:1px;background:#f4f3ef;padding:9px 11px}
+.product-form label{display:block;font-size:11px;font-weight:800;margin-bottom:15px}
+.product-form input,.product-form select,.search-input{width:100%;margin-top:7px;padding:13px;border:1px solid #deddd7;background:#fafaf8;color:#111;outline:none;border-radius:0}
+.product-form input:focus,.product-form select:focus,.search-input:focus{border-color:#111}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.form-actions{display:flex;gap:10px;align-items:center}
+.form-actions .cta{margin:0}
+.form-actions .outline{margin:0;width:auto}
+.form-message{font-size:11px;color:#237a46;min-height:14px;margin:12px 0 0}
+.inventory-heading{gap:20px}
+.search-input{max-width:260px;margin:0}
+.inventory-list{overflow-x:auto}
+.inventory-table{width:100%;border-collapse:collapse;min-width:620px}
+.inventory-table th{text-align:left;font-size:9px;letter-spacing:1px;color:#777;padding:12px;border-bottom:1px solid #deddd7}
+.inventory-table td{font-size:11px;font-weight:700;padding:12px;border-bottom:1px solid #eee}
+.inventory-product{display:flex;align-items:center;gap:11px;min-width:180px}
+.inventory-product img{width:48px;height:58px;object-fit:cover;background:#eee}
+.inventory-product small{display:block;color:#888;font-weight:500;margin-top:4px}
+.stock-label{font-size:9px;color:#777}
+.table-actions{display:flex;gap:7px}
+.table-actions button{padding:8px 10px;font-size:9px;font-weight:900;background:#111;color:#fff}
+.table-actions .delete-btn{background:#f1e9e6;color:#a33}
+.empty-state{text-align:center;padding:40px 10px;color:#777;font-size:12px}
+.admin-warning{font-size:11px;line-height:1.7;color:#777;max-width:800px}
+.admin-warning strong{color:#111}
+.admin-footer{border-top:1px solid #deddd7;padding:22px 5vw;display:flex;justify-content:space-between;font-size:9px;font-weight:800;letter-spacing:1px;color:#777}
+.admin-footer a{color:#111;text-decoration:none}
+@media(max-width:650px){.admin-topbar{height:65px;padding:0 4vw}.admin-mode{display:none}.admin-shell{padding:38px 4vw 50px}.admin-heading{align-items:start;gap:10px;flex-direction:column}.admin-stats{grid-template-columns:1fr 1fr}.admin-stat:last-child{grid-column:1/-1}.admin-panel{padding:18px}.form-grid{grid-template-columns:1fr;gap:0}.inventory-heading{align-items:stretch;flex-direction:column}.search-input{max-width:none}.form-actions{flex-wrap:wrap}.admin-footer{gap:15px;flex-wrap:wrap}}
+
+.customer-summary{font-size:10px;font-weight:800;letter-spacing:.5px;color:#777;margin:-8px 0 14px}
+.customer-address{display:block;color:#888;font-size:9px;font-weight:500;margin-top:4px;max-width:230px;white-space:normal}
+.customer-orders-panel .inventory-table{min-width:760px}

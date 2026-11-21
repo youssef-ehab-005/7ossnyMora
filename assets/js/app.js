@@ -23,7 +23,32 @@ function openWishlist(){document.getElementById('drawerTitle').textContent='SAVE
 function showDrawer(){document.getElementById('overlay').classList.add('show');document.getElementById('drawer').classList.add('open')}
 function closePanels(){document.getElementById('overlay').classList.remove('show');document.getElementById('drawer').classList.remove('open')}
 function closeModal(){document.getElementById('modal').classList.remove('show')}
-function checkout(){document.getElementById('drawerContent').innerHTML=`<h3>CHECKOUT</h3><p style="font-size:12px;color:#777">Enter your delivery details. This is a front-end demo; no payment will be processed.</p><input class="field" placeholder="Full name"><input class="field" placeholder="Phone number"><input class="field" placeholder="Address"><select class="field"><option>Cash on delivery</option><option>Online payment (integration required)</option></select><div class="total"><span>TOTAL</span><span>${money(cart.reduce((a,p)=>a+p.price,0))}</span></div><button class="full" onclick="alert('Demo only — connect backend and payment provider to accept real orders.')">PLACE DEMO ORDER</button>`}
+function checkout(){
+ document.getElementById('drawerContent').innerHTML=`<h3>CHECKOUT</h3><p style="font-size:12px;color:#777">Enter your delivery details to place a demo order.</p><input class="field" id="checkoutName" placeholder="Full name"><input class="field" id="checkoutPhone" type="tel" placeholder="Phone number"><input class="field" id="checkoutEmail" type="email" placeholder="Email address (optional)"><input class="field" id="checkoutAddress" placeholder="Full delivery address"><select class="field" id="checkoutPayment"><option>Cash on delivery</option><option>Online payment (integration required)</option></select><div class="total"><span>TOTAL</span><span>${money(cart.reduce((a,p)=>a+p.price,0))}</span></div><button class="full" onclick="placeDemoOrder()">PLACE DEMO ORDER</button><p id="checkoutMessage" class="notice"></p>`;
+}
+function placeDemoOrder(){
+ const name=document.getElementById('checkoutName').value.trim();
+ const phone=document.getElementById('checkoutPhone').value.trim();
+ const email=document.getElementById('checkoutEmail').value.trim();
+ const address=document.getElementById('checkoutAddress').value.trim();
+ if(!name||!phone||!address){document.getElementById('checkoutMessage').textContent='Please enter your name, phone number and address.';return}
+ const orders=JSON.parse(localStorage.getItem('hossnyOrders')||'[]');
+ const order={
+  id:'HS-'+Date.now(),
+  customer:{name,phone,email,address},
+  items:cart.map(p=>({id:p.id,name:p.name,price:Number(p.price),size:p.size,quantity:1})),
+  total:cart.reduce((a,p)=>a+Number(p.price),0),
+  paymentMethod:document.getElementById('checkoutPayment').value,
+  status:'Pending',
+  createdAt:new Date().toISOString()
+ };
+ orders.unshift(order);
+ localStorage.setItem('hossnyOrders',JSON.stringify(orders));
+ cart=[];
+ render();
+ document.getElementById('drawerContent').innerHTML='<h3>THANK YOU!</h3><p>Your demo order has been saved in this browser. HOSSNY will contact you to confirm it.</p>';
+ setTimeout(closePanels,3000);
+}
 function trackOrder(){alert('Order tracking UI is planned. Connect an order database and tracking status API to enable live tracking.')}
 function openAdmin(){document.getElementById('admin').classList.add('show');renderAdmin()}
 function closeAdmin(){document.getElementById('admin').classList.remove('show')}
