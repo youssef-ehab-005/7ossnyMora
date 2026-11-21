@@ -11,12 +11,27 @@
 <link href="assets/css/ui.css" rel="stylesheet"/>
 <script defer="" src="assets/js/ui.js"></script>
 <script defer="" src="assets/js/admin.js"></script>
+<script type="module" src="firebase/admin-auth.js"></script>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=2">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon.png?v=2">
 <link rel="apple-touch-icon" href="assets/favicon.png?v=2">
 <meta name="theme-color" content="#ff5a1f">
 </head>
 <body class="admin-page">
+<div id="adminAuthGate" class="auth-gate">
+  <form id="adminLoginForm" class="auth-card">
+    <div class="auth-mark">H</div>
+    <div class="eyebrow">HOSSNY® / SECURE ACCESS</div>
+    <h1>Admin sign in<span>.</span></h1>
+    <p>Sign in with one of the authorized Hossny administrator accounts.</p>
+    <label for="adminEmail">Email address</label>
+    <input id="adminEmail" type="email" autocomplete="username" required placeholder="admin@example.com">
+    <label for="adminPassword">Password</label>
+    <input id="adminPassword" type="password" autocomplete="current-password" required placeholder="Enter your password">
+    <button class="cta" id="adminLoginButton" type="submit">SIGN IN</button>
+    <p id="adminAuthMessage" class="auth-message" role="status"></p>
+  </form>
+</div>
 <div aria-label="Display settings" class="global-tools">
 <button aria-label="Switch theme" class="ui-tool theme-toggle" data-theme-toggle="" title="Switch theme" type="button"><span class="theme-icon">☾</span></button>
 <button aria-label="Change language" class="ui-tool language-toggle" data-language-toggle="" type="button">AR</button>
@@ -24,7 +39,7 @@
 <div class="announcement">Hossny® / STORE MANAGEMENT</div>
 <header class="admin-topbar"><div class="topbar-left"><button aria-label="Open navigation" class="sidebar-mobile-toggle" id="sidebarMobileToggle" type="button">☰</button><a class="logo" href="index.html">Hossny<span>®</span></a></div>
 
-<div class="admin-top-actions"><span class="admin-mode">LOCAL DEMO ADMIN</span></div>
+<div class="admin-top-actions"><span class="admin-mode" id="adminAccountLabel">FIREBASE ADMIN</span><button class="outline" id="adminSignOut" type="button" hidden> SIGN OUT </button></div>
 </header>
 <main class="admin-shell"><div class="admin-layout"><aside aria-label="Admin navigation" class="admin-sidebar"><div class="sidebar-brand"><span class="sidebar-brand-mark">H</span><div class="sidebar-brand-copy"><strong>Hossny<span>®</span></strong><small>CONTROL CENTER</small></div></div><nav class="sidebar-nav"><button class="sidebar-link active" data-admin-view="dashboard" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="grid-2x2"></span><span>Dashboard</span></button><button class="sidebar-link" data-admin-view="products" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="package"></span><span>Products</span></button><button class="sidebar-link" data-admin-view="categories" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="tags"></span><span>Categories</span></button><button class="sidebar-link" data-admin-view="orders" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="shopping-bag"></span><span>Orders</span><span class="sidebar-count" id="sidebarOrderCount">0</span></button><button class="sidebar-link" data-admin-view="customers" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="users"></span><span>Customers</span></button><button class="sidebar-link" data-admin-view="homepage" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="panels-top-left"></span><span>Homepage</span></button><button class="sidebar-link" data-admin-view="contact" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="contact"></span><span>Contact Us</span></button></nav><div class="sidebar-footer"><span class="sidebar-status-dot"></span><span>LOCAL DEMO MODE</span></div></aside><div class="admin-content"><div class="workspace-head"><div><div class="eyebrow">Hossny® / ADMINISTRATION</div><h1 id="activeViewTitle">Dashboard</h1></div><div class="workspace-actions"><span class="admin-date" id="todayLabel"></span><a class="outline admin-store-link" href="index.html">VIEW STORE ↗</a></div></div><section aria-label="Dashboard" class="admin-view active" data-view-panel="dashboard"><section class="admin-heading">
 <div>
@@ -179,7 +194,7 @@
 <p class="form-message" id="sectionMessage" role="status"></p>
 </form>
 <div class="home-sections-manager" id="homeSectionsManager"></div>
-</section></section><p class="admin-warning"><strong>Demo mode:</strong> Product changes are saved in this browser's LocalStorage only. They are not shared with customers on other devices yet. We will connect Firebase next for shared products, secure admin login and customer orders.</p></div></div></main>
+</section></section><p class="admin-warning"><strong>Storage status:</strong> Admin sign-in is protected by Firebase Authentication. Product, category, homepage and order data are still stored in this browser until the Firestore data sync phase is completed.</p></div></div></main>
 <footer class="admin-footer"><span>© 2026 Hossny®. ALL RIGHTS RESERVED.</span><a href="index.html">BACK TO STORE</a></footer>
 </body>
 </html>
