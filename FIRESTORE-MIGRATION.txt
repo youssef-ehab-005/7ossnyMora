@@ -1,0 +1,17 @@
+HOSSNY FIRESTORE CATALOG MIGRATION — TEMPORARY FIRST STEP
+
+1. Upload the full folder contents to the same GitHub Pages repository.
+2. Open https://YOUR-GITHUB-PAGES-DOMAIN/migrate-firestore.html
+3. In the same browser, sign in first at admin.html with an authorized admin account.
+4. Click "Import 8 products + 4 categories".
+5. In Firebase Console > Firestore Database > Data, verify:
+   - products: 8 documents
+   - categories: 4 documents
+
+The migration is safe to re-run: it skips documents whose IDs already exist.
+Do NOT delete this utility until the Firestore documents are verified.
+
+IMPORTANT:
+This is the catalog data migration utility only. The storefront/admin scripts still need
+the separate Firestore read/write conversion before removing LocalStorage and seed data.
+Do not remove old data/code until that conversion is completed and tested.

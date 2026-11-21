@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hossny | Firestore Catalog Migration</title>
+<style>
+body{font:16px Arial,sans-serif;background:#111;color:#eee;max-width:760px;margin:40px auto;padding:20px}
+.card{background:#1c1c1c;border:1px solid #333;border-radius:14px;padding:24px}
+button{background:#ff5a1f;color:#111;border:0;padding:13px 20px;font-weight:800;cursor:pointer;border-radius:8px}
+pre{white-space:pre-wrap;background:#090909;padding:14px;border-radius:8px;max-height:300px;overflow:auto}
+.note{color:#bbb;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="card">
+<h1>Hossny — Firestore Catalog Migration</h1>
+<p class="note">This one-time utility copies the current 8 products and 4 categories into your Firebase Firestore database. Sign in with an authorized Hossny admin account first. It does not delete or overwrite existing documents with different IDs.</p>
+<p id="status">Checking Firebase admin session…</p>
+<button id="run" disabled>Import 8 products + 4 categories</button>
+<pre id="log"></pre>
+</div>
+<script type="module">
+import { firebaseConfig } from "./firebase/firebase-config.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+const ADMIN_EMAILS = new Set(["omarhossny@gmail.com","youssefehab@gmail.com"]);
+const products = [
+{id:"1",name:"OVERSIZED CORE TEE",cat:"T-Shirts",price:590,tag:"BEST SELLER",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"},
+{id:"2",name:"HEAVYWEIGHT HOODIE",cat:"Hoodies",price:1290,tag:"NEW DROP",img:"https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=80"},
+{id:"3",name:"UTILITY CARGO PANTS",cat:"Pants",price:1150,tag:"LIMITED",img:"https://images.unsplash.com/photo-1517445312882-bc9910d016b7?auto=format&fit=crop&w=900&q=80"},
+{id:"4",name:"GRAPHIC STREET TEE",cat:"T-Shirts",price:690,tag:"NEW",img:"https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=900&q=80"},
+{id:"5",name:"ESSENTIAL ZIP HOODIE",cat:"Hoodies",price:1450,tag:"HOT",img:"https://images.unsplash.com/photo-1578681994506-b8f463449011?auto=format&fit=crop&w=900&q=80"},
+{id:"6",name:"RELAXED FIT DENIM",cat:"Pants",price:1390,tag:"",img:"https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&w=900&q=80"},
+{id:"7",name:"HOSSNY LOGO CAP",cat:"Accessories",price:420,tag:"",img:"https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=900&q=80"},
+{id:"8",name:"DAILY CROSSBODY",cat:"Accessories",price:750,tag:"NEW",img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=80"}
+];
+const categories = [
+{id:"cat-shirts",name:"T-Shirts",nameAr:"تيشيرتات"},
+{id:"cat-hoodies",name:"Hoodies",nameAr:"هوديز"},
+{id:"cat-pants",name:"Pants",nameAr:"بناطيل"},
+{id:"cat-accessories",name:"Accessories",nameAr:"إكسسوارات"}
+];
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const status = document.getElementById("status");
+const button = document.getElementById("run");
+const log = document.getElementById("log");
+let authorized = false;
+onAuthStateChanged(auth, user => {
+  authorized = !!user && ADMIN_EMAILS.has((user.email||"").toLowerCase());
+  status.textContent = authorized ? `Signed in as ${user.email}. Ready to import.` : "Not signed in as an authorized admin. Sign in at admin.html first, then open this page in the same browser.";
+  button.disabled = !authorized;
+});
+button.addEventListener("click", async () => {
+  button.disabled = true;
+  let added=0, skipped=0;
+  try {
+    for (const item of categories) {
+      const ref=doc(db,"categories",item.id);
+      const existing=await getDoc(ref);
+      if(existing.exists()){skipped++;log.textContent+=`Skipped existing category: ${item.name}\n`;continue;}
+      await setDoc(ref,{...item,createdAt:serverTimestamp(),updatedAt:serverTimestamp()});
+      added++;log.textContent+=`Imported category: ${item.name}\n`;
+    }
+    for (const item of products) {
+      const ref=doc(db,"products",item.id);
+      const existing=await getDoc(ref);
+      if(existing.exists()){skipped++;log.textContent+=`Skipped existing product: ${item.name}\n`;continue;}
+      await setDoc(ref,{...item,createdAt:serverTimestamp(),updatedAt:serverTimestamp(),active:true});
+      added++;log.textContent+=`Imported product: ${item.name}\n`;
+    }
+    status.textContent=`Migration complete: ${added} documents added, ${skipped} existing documents skipped.`;
+    log.textContent+=`\nDONE — verify products (8) and categories (4) in Firestore Console.`;
+  } catch(error) {
+    status.textContent=`Migration stopped: ${error.code||error.message}`;
+    log.textContent+=`\nERROR: ${error.code||error.message}\nCheck Firestore Rules and admin sign-in.`;
+    button.disabled=false;
+  }
+});
+</script>
+</body>
+</html>
