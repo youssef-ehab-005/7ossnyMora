@@ -66,3 +66,25 @@ The admin page now uses a sidebar navigation (Dashboard, Products, Categories, O
 
 ## Delete orders
 The Orders admin view includes a DELETE ORDER action on each order. It asks for confirmation, then removes the selected order from the browser's `hossnyOrders` LocalStorage collection and refreshes the order list, customer summary, dashboard recent orders, and order count. This is local-demo deletion; when Firebase is connected, the same action must be implemented with authenticated Firestore delete permissions.
+
+## Hossny brand identity
+Visible storefront and admin branding now uses the mixed-case “Hossny” wordmark. The admin sidebar uses an orange square H monogram, white Hossny wordmark, orange registered mark, and CONTROL CENTER subtitle based on the supplied visual reference.
+
+## Footer wordmark visibility fix
+The footer Hossny logo now has an explicit high-specificity style so generic footer-link typography and theme color overrides cannot shrink or hide the wordmark. It stays warm white with an orange registered mark in both themes.
+
+
+## Contact Us + WhatsApp order confirmation
+- Admin → Contact Us lets the store owner edit WhatsApp, phone numbers, email, address, working hours, Maps, and social links.
+- Storefront footer links to a Contact Us section populated from the saved contact settings.
+- After a checkout order is saved, the storefront opens WhatsApp with a pre-filled order confirmation message addressed to the configured WhatsApp number. The customer must press Send.
+- Contact settings currently use LocalStorage and are shared only within the same browser profile/origin.
+
+## Live order updates and notifications (pre-Firebase stage)
+- Admin listens for LocalStorage changes from other tabs on the same browser/origin and refreshes order lists without manual reload.
+- Admin can request browser notification permission and receives a notification for new orders created in another same-browser tab while the admin page is open.
+- This is NOT cross-device or background push yet. Firestore real-time listeners and Firebase Cloud Messaging will be connected in the next phase after the Firebase project config and security rules are ready.
+
+## Firebase scaffold
+- `firebase/firebase-config.example.js` and `firebase/firebase-client.js` are starter files for the next Firebase phase.
+- `firebase-messaging-sw.js` is a placeholder and does not send push notifications yet.

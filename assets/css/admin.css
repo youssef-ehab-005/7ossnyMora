@@ -168,3 +168,36 @@ body.is-ar .order-total{text-align:start}
 body.dark-theme .delete-order-btn{color:#ff827a;border-color:#9e4540}
 body.dark-theme .delete-order-btn:hover{background:#a8322c;color:#fff}
 @media(max-width:650px){.order-actions{width:100%;justify-content:stretch}.order-actions>*{flex:1}}
+
+/* Hossny Control Center identity — matching the supplied logo reference */
+.sidebar-brand{gap:13px;padding:8px 10px 28px}
+.sidebar-brand-mark{
+  width:48px;height:48px;flex:0 0 48px;
+  display:grid;place-items:center;
+  background:#ff5a1f;color:#171717;
+  font:900 27px 'Space Grotesk',sans-serif;
+  border-radius:2px;letter-spacing:-1px;
+}
+.sidebar-brand-copy{display:flex;flex-direction:column;gap:5px}
+.sidebar-brand strong{
+  display:block;color:#f7f5ef!important;
+  font:900 21px 'Space Grotesk',sans-serif;
+  letter-spacing:-1.1px;text-transform:none;
+}
+.sidebar-brand strong span{color:#ff5a1f!important}
+.sidebar-brand small{
+  display:block;color:#d3d0c8;
+  font-size:9px;letter-spacing:2px;font-weight:800;
+  margin-top:1px;
+}
+.admin-topbar .logo{
+  font:900 28px 'Space Grotesk',sans-serif;
+  letter-spacing:-1.8px;text-transform:none;
+}
+.admin-topbar .logo span{color:#ff5a1f!important}
+body.dark-theme .admin-topbar .logo{color:#f5f3ee!important}
+body:not(.dark-theme) .admin-topbar .logo{color:#111!important}
+
+.contact-admin-help{font-size:12px;line-height:1.8;color:#777;margin:-5px 0 22px}
+.notification-permission{font-size:11px;color:#777;font-weight:700}
+body.dark-theme .contact-admin-help,body.dark-theme .notification-permission{color:#bbb}

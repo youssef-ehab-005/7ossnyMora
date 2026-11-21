@@ -132,3 +132,26 @@ body.dark-theme .logo span,
 body:not(.dark-theme) .logo span {
   color: var(--accent) !important;
 }
+
+
+/* Footer Hossny wordmark: override generic footer-link and theme rules */
+footer .footgrid > div:first-child > a.logo,
+body.dark-theme footer .footgrid > div:first-child > a.logo,
+body:not(.dark-theme) footer .footgrid > div:first-child > a.logo {
+  display: inline-block !important;
+  color: #f5f3ee !important;
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: 30px !important;
+  font-weight: 900 !important;
+  line-height: 1.1 !important;
+  letter-spacing: -1.8px !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  margin: 0 0 14px !important;
+}
+footer .footgrid > div:first-child > a.logo span {
+  color: #ff5a1f !important;
+  font-size: .48em !important;
+  vertical-align: super !important;
+  letter-spacing: 0 !important;
+}

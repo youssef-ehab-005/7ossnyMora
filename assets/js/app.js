@@ -77,6 +77,31 @@ function openWishlist(){document.getElementById('drawerTitle').textContent='SAVE
 function showDrawer(){document.getElementById('overlay').classList.add('show');document.getElementById('drawer').classList.add('open')}
 function closePanels(){document.getElementById('overlay').classList.remove('show');document.getElementById('drawer').classList.remove('open')}
 function closeModal(){document.getElementById('modal').classList.remove('show')}
+
+const CONTACT_SETTINGS_KEY = "hossnyContactSettings";
+function getStoreContact(){
+ try{return JSON.parse(localStorage.getItem(CONTACT_SETTINGS_KEY)||"{}")}catch{return {}}
+}
+function renderStoreContact(){
+ const data=getStoreContact();
+ const heading=document.getElementById("storeContactHeading");
+ const description=document.getElementById("storeContactDescription");
+ const details=document.getElementById("storeContactDetails");
+ if(!heading||!details)return;
+ heading.innerHTML=`${safeText(data.heading||"GET IN TOUCH")}<span>.</span>`;
+ if(description)description.textContent=data.description||"We are here to help with your order.";
+ const links=[];
+ if(data.phone)links.push(`<a href="tel:${safeText(data.phone)}"><small>PHONE</small><strong>${safeText(data.phone)}</strong></a>`);
+ if(data.phone2)links.push(`<a href="tel:${safeText(data.phone2)}"><small>PHONE 2</small><strong>${safeText(data.phone2)}</strong></a>`);
+ if(data.email)links.push(`<a href="mailto:${safeText(data.email)}"><small>EMAIL</small><strong>${safeText(data.email)}</strong></a>`);
+ if(data.whatsapp)links.push(`<a target="_blank" rel="noopener" href="https://wa.me/${safeText(data.whatsapp)}"><small>WHATSAPP</small><strong>CHAT WITH US ↗</strong></a>`);
+ if(data.address)links.push(`<div><small>ADDRESS</small><strong>${safeText(data.address)}</strong></div>`);
+ if(data.hours)links.push(`<div><small>WORKING HOURS</small><strong>${safeText(data.hours)}</strong></div>`);
+ if(data.maps)links.push(`<a target="_blank" rel="noopener" href="${safeText(data.maps)}"><small>LOCATION</small><strong>OPEN MAP ↗</strong></a>`);
+ ["instagram","facebook","tiktok"].forEach(key=>{if(data[key])links.push(`<a target="_blank" rel="noopener" href="${safeText(data[key])}"><small>${key.toUpperCase()}</small><strong>FOLLOW US ↗</strong></a>`)});
+ details.innerHTML=links.length?links.join(""):'<p>Contact details will be available soon.</p>';
+}
+
 function checkout(){document.getElementById('drawerContent').innerHTML=`<h3>CHECKOUT</h3><p style="font-size:12px;color:#777">Enter your delivery details to place a demo order.</p><input class="field" id="checkoutName" placeholder="Full name"><input class="field" id="checkoutPhone" type="tel" placeholder="Phone number"><input class="field" id="checkoutEmail" type="email" placeholder="Email address (optional)"><input class="field" id="checkoutAddress" placeholder="Full delivery address"><select class="field" id="checkoutPayment"><option>Cash on delivery</option><option>Online payment (integration required)</option></select><div class="total"><span>TOTAL</span><span>${money(cart.reduce((a,p)=>a+p.price,0))}</span></div><button class="full" onclick="placeDemoOrder()">PLACE DEMO ORDER</button><p id="checkoutMessage" class="notice"></p>`}
 function placeDemoOrder(){
  const name=document.getElementById('checkoutName').value.trim(),phone=document.getElementById('checkoutPhone').value.trim(),email=document.getElementById('checkoutEmail').value.trim(),address=document.getElementById('checkoutAddress').value.trim();
@@ -88,6 +113,13 @@ function placeDemoOrder(){
  localStorage.setItem('hossnyLastOrderId',order.id);
  cart=[];render();closePanels();
  location.hash='order-confirmed';
+ const contact=getStoreContact();
+ if(contact.whatsapp){
+   const lines=order.items.map(item=>`• ${item.name} | Size: ${item.size||"-"} | Qty: ${item.quantity||1} | EGP ${item.price}`).join("\n");
+   const message=`Hello Hossny! I would like to confirm my order.\nOrder: ${order.id}\nName: ${order.customer.name}\nPhone: ${order.customer.phone}\nAddress: ${order.customer.address}\n\nItems:\n${lines}\n\nTotal: EGP ${order.total}\nPayment: ${order.paymentMethod}`;
+   const waUrl=`https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`;
+   window.open(waUrl,"_blank","noopener");
+ }
 }
 function trackOrder(){location.hash='track-order'}
 function openAdmin(){location.href='admin.html'}
@@ -147,3 +179,12 @@ renderCustomerPage();
 
 applyHomeContent();
 render();
+
+window.addEventListener("storage",event=>{
+ if(event.key==="hossnyContactSettings")renderStoreContact();
+ if(event.key==="hossnyOrders"){
+   // The current browser can keep customer order pages fresh across tabs.
+   if(typeof renderCustomerPage==="function" && ["my-orders","track-order"].includes(location.hash.slice(1))) renderCustomerPage();
+ }
+});
+renderStoreContact();

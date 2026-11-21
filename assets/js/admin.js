@@ -379,7 +379,70 @@
   });
 
 
-  const viewTitles = {dashboard:"Dashboard",products:"Products",categories:"Categories",orders:"Orders",customers:"Customers",homepage:"Homepage"};
+
+  const CONTACT_KEY = "hossnyContactSettings";
+  const defaultContact = {
+    whatsapp:"", phone:"", phone2:"", email:"", address:"", hours:"",
+    maps:"", instagram:"", facebook:"", tiktok:"",
+    heading:"Get in touch with Hossny", description:"We are here to help with your order."
+  };
+  function getContactSettings() {
+    try { return {...defaultContact, ...JSON.parse(localStorage.getItem(CONTACT_KEY) || "{}")}; }
+    catch { return {...defaultContact}; }
+  }
+  function loadContactForm() {
+    const data = getContactSettings();
+    const fields = {
+      contactWhatsapp:"whatsapp", contactPhone:"phone", contactPhone2:"phone2",
+      contactEmail:"email", contactAddress:"address", contactHours:"hours",
+      contactMaps:"maps", contactInstagram:"instagram", contactFacebook:"facebook",
+      contactTiktok:"tiktok", contactHeading:"heading", contactDescription:"description"
+    };
+    Object.entries(fields).forEach(([id,key]) => { if ($(id)) $(id).value = data[key] || ""; });
+  }
+  function saveContactForm(event) {
+    event.preventDefault();
+    const data = {
+      whatsapp:$("contactWhatsapp").value.replace(/[^\d]/g,""),
+      phone:$("contactPhone").value.trim(), phone2:$("contactPhone2").value.trim(),
+      email:$("contactEmail").value.trim(), address:$("contactAddress").value.trim(),
+      hours:$("contactHours").value.trim(), maps:$("contactMaps").value.trim(),
+      instagram:$("contactInstagram").value.trim(), facebook:$("contactFacebook").value.trim(),
+      tiktok:$("contactTiktok").value.trim(), heading:$("contactHeading").value.trim(),
+      description:$("contactDescription").value.trim()
+    };
+    if (!data.whatsapp) { $("contactMessage").textContent = "Please enter the WhatsApp number with country code, e.g. 2010XXXXXXXX."; return; }
+    localStorage.setItem(CONTACT_KEY, JSON.stringify(data));
+    $("contactMessage").textContent = "Contact details saved on this browser. They will appear on the storefront using the same browser storage.";
+  }
+  function updateNotificationPermission() {
+    const label = $("notificationPermission");
+    if (!label) return;
+    label.textContent = !("Notification" in window) ? "Notifications are not supported in this browser" :
+      Notification.permission === "granted" ? "Notifications enabled on this device" :
+      Notification.permission === "denied" ? "Notifications blocked in browser settings" : "Permission not requested";
+  }
+  async function enableOrderNotifications() {
+    if (!("Notification" in window)) {
+      $("notificationMessage").textContent = "This browser does not support desktop notifications."; return;
+    }
+    const permission = await Notification.requestPermission();
+    updateNotificationPermission();
+    $("notificationMessage").textContent = permission === "granted" ?
+      "Notifications enabled. Keep this admin page open to receive same-browser order alerts until Firebase is connected." :
+      "Notification permission was not granted. You can enable it in browser site settings.";
+  }
+  function showNewOrderNotification(order) {
+    if (!("Notification" in window) || Notification.permission !== "granted") return;
+    const notification = new Notification("Hossny — New Order", {
+      body:`${order.id} · ${order.customer?.name || "New customer"} · EGP ${Number(order.total || 0).toLocaleString("en-EG")}`,
+      tag:`hossny-${order.id}`,
+      icon:"assets/images/icon-192.png"
+    });
+    notification.onclick = () => { window.focus(); showAdminView("orders"); notification.close(); };
+  }
+
+  const viewTitles = {dashboard:"Dashboard",products:"Products",categories:"Categories",orders:"Orders",customers:"Customers",homepage:"Homepage",contact:"Contact Us"};
   function showAdminView(viewName) {
     document.querySelectorAll("[data-view-panel]").forEach(panel => panel.classList.toggle("active", panel.dataset.viewPanel === viewName));
     document.querySelectorAll("[data-admin-view]").forEach(button => button.classList.toggle("active", button.dataset.adminView === viewName));
@@ -404,6 +467,27 @@
   document.addEventListener("change", event => {
     const statusSelect = event.target.closest("[data-order-status]");
     if (statusSelect) updateOrderStatus(statusSelect.dataset.orderStatus, statusSelect.value);
+  });
+
+
+  if ($("contactForm")) {
+    loadContactForm();
+    $("contactForm").addEventListener("submit", saveContactForm);
+  }
+  if ($("enableNotificationsButton")) $("enableNotificationsButton").addEventListener("click", enableOrderNotifications);
+  updateNotificationPermission();
+
+  // Local browser live sync: updates admin orders without a manual refresh when checkout
+  // happens in another tab on the same browser/origin. Firebase will replace this bridge.
+  let knownOrderIds = new Set(loadOrders().map(order => order.id));
+  window.addEventListener("storage", event => {
+    if (event.key !== "hossnyOrders" || !event.newValue) return;
+    let incoming = [];
+    try { incoming = JSON.parse(event.newValue) || []; } catch { return; }
+    const added = incoming.filter(order => !knownOrderIds.has(order.id));
+    knownOrderIds = new Set(incoming.map(order => order.id));
+    renderCustomers();
+    added.forEach(showNewOrderNotification);
   });
 
   $("todayLabel").textContent = new Date().toLocaleDateString("en-GB", {

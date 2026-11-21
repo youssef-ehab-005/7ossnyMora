@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>HOSSNY® — Admin</title>
+<title>Hossny® — Admin</title>
 <link href="assets/css/style.css" rel="stylesheet"/>
 <link href="assets/css/admin.css" rel="stylesheet"/>
 <link href="assets/css/ui.css" rel="stylesheet"/>
@@ -17,16 +17,16 @@
 <button aria-label="Switch theme" class="ui-tool theme-toggle" data-theme-toggle="" title="Switch theme" type="button"><span class="theme-icon">☾</span></button>
 <button aria-label="Change language" class="ui-tool language-toggle" data-language-toggle="" type="button">AR</button>
 </div>
-<div class="announcement">HOSSNY® / STORE MANAGEMENT</div>
-<header class="admin-topbar"><div class="topbar-left"><button aria-label="Open navigation" class="sidebar-mobile-toggle" id="sidebarMobileToggle" type="button">☰</button><a class="logo" href="index.html">HOSSNY<span>®</span></a></div>
+<div class="announcement">Hossny® / STORE MANAGEMENT</div>
+<header class="admin-topbar"><div class="topbar-left"><button aria-label="Open navigation" class="sidebar-mobile-toggle" id="sidebarMobileToggle" type="button">☰</button><a class="logo" href="index.html">Hossny<span>®</span></a></div>
 
 <div class="admin-top-actions"><span class="admin-mode">LOCAL DEMO ADMIN</span></div>
 </header>
-<main class="admin-shell"><div class="admin-layout"><aside aria-label="Admin navigation" class="admin-sidebar"><div class="sidebar-brand"><span class="sidebar-brand-mark">H</span><div><strong>HOSSNY<span>®</span></strong><small>CONTROL CENTER</small></div></div><nav class="sidebar-nav"><button class="sidebar-link active" data-admin-view="dashboard" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="grid-2x2"></span><span>Dashboard</span></button><button class="sidebar-link" data-admin-view="products" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="package"></span><span>Products</span></button><button class="sidebar-link" data-admin-view="categories" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="tags"></span><span>Categories</span></button><button class="sidebar-link" data-admin-view="orders" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="shopping-bag"></span><span>Orders</span><span class="sidebar-count" id="sidebarOrderCount">0</span></button><button class="sidebar-link" data-admin-view="customers" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="users"></span><span>Customers</span></button><button class="sidebar-link" data-admin-view="homepage" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="panels-top-left"></span><span>Homepage</span></button></nav><div class="sidebar-footer"><span class="sidebar-status-dot"></span><span>LOCAL DEMO MODE</span></div></aside><div class="admin-content"><div class="workspace-head"><div><div class="eyebrow">HOSSNY® / ADMINISTRATION</div><h1 id="activeViewTitle">Dashboard</h1></div><div class="workspace-actions"><span class="admin-date" id="todayLabel"></span><a class="outline admin-store-link" href="index.html">VIEW STORE ↗</a></div></div><section aria-label="Dashboard" class="admin-view active" data-view-panel="dashboard"><section class="admin-heading">
+<main class="admin-shell"><div class="admin-layout"><aside aria-label="Admin navigation" class="admin-sidebar"><div class="sidebar-brand"><span class="sidebar-brand-mark">H</span><div class="sidebar-brand-copy"><strong>Hossny<span>®</span></strong><small>CONTROL CENTER</small></div></div><nav class="sidebar-nav"><button class="sidebar-link active" data-admin-view="dashboard" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="grid-2x2"></span><span>Dashboard</span></button><button class="sidebar-link" data-admin-view="products" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="package"></span><span>Products</span></button><button class="sidebar-link" data-admin-view="categories" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="tags"></span><span>Categories</span></button><button class="sidebar-link" data-admin-view="orders" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="shopping-bag"></span><span>Orders</span><span class="sidebar-count" id="sidebarOrderCount">0</span></button><button class="sidebar-link" data-admin-view="customers" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="users"></span><span>Customers</span></button><button class="sidebar-link" data-admin-view="homepage" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="panels-top-left"></span><span>Homepage</span></button><button class="sidebar-link" data-admin-view="contact" type="button"><span aria-hidden="true" class="sidebar-icon" data-icon="contact"></span><span>Contact Us</span></button></nav><div class="sidebar-footer"><span class="sidebar-status-dot"></span><span>LOCAL DEMO MODE</span></div></aside><div class="admin-content"><div class="workspace-head"><div><div class="eyebrow">Hossny® / ADMINISTRATION</div><h1 id="activeViewTitle">Dashboard</h1></div><div class="workspace-actions"><span class="admin-date" id="todayLabel"></span><a class="outline admin-store-link" href="index.html">VIEW STORE ↗</a></div></div><section aria-label="Dashboard" class="admin-view active" data-view-panel="dashboard"><section class="admin-heading">
 <div>
 <div class="eyebrow">STORE MANAGEMENT</div>
 <h1>Dashboard<span>.</span></h1>
-<p>Manage your HOSSNY products from one place.</p>
+<p>Manage your Hossny products from one place.</p>
 </div>
 <div class="admin-date" id="todayLabel"></div>
 </section><section class="admin-stats">
@@ -86,14 +86,49 @@
 </div>
 <div class="customer-summary" id="customerSummary">0 customers</div>
 <div class="inventory-list" id="customersList"></div>
-</section></section><section aria-label="Homepage" class="admin-view" data-view-panel="homepage"><section class="admin-panel">
+</section></section>
+<section aria-label="Contact Us" class="admin-view" data-view-panel="contact">
+  <section class="admin-panel">
+    <div class="panel-heading"><div><div class="eyebrow">CUSTOMER SUPPORT</div><h2>Contact Us settings<span>.</span></h2></div><span class="panel-step">STORE CONTACT</span></div>
+    <p class="contact-admin-help">Edit your store contact details here. These details appear on the storefront Contact Us section and are used for WhatsApp order confirmations.</p>
+    <form class="product-form" id="contactForm">
+      <div class="form-grid">
+        <label>WhatsApp number (international format)<input id="contactWhatsapp" type="tel" placeholder="2010XXXXXXXX" required></label>
+        <label>Phone number<input id="contactPhone" type="tel" placeholder="+20 10 0000 0000"></label>
+        <label>Second phone number<input id="contactPhone2" type="tel" placeholder="+20 11 0000 0000"></label>
+        <label>Support email<input id="contactEmail" type="email" placeholder="support@example.com"></label>
+      </div>
+      <label>Store address<input id="contactAddress" type="text" placeholder="Street, area, city, country"></label>
+      <div class="form-grid">
+        <label>Working hours<input id="contactHours" type="text" placeholder="Saturday – Thursday, 10 AM – 10 PM"></label>
+        <label>Google Maps URL<input id="contactMaps" type="url" placeholder="https://maps.google.com/..."></label>
+        <label>Instagram URL<input id="contactInstagram" type="url" placeholder="https://instagram.com/..."></label>
+        <label>Facebook URL<input id="contactFacebook" type="url" placeholder="https://facebook.com/..."></label>
+        <label>TikTok URL<input id="contactTiktok" type="url" placeholder="https://tiktok.com/@..."></label>
+      </div>
+      <div class="form-grid">
+        <label>Contact heading<input id="contactHeading" type="text" placeholder="Get in touch with Hossny"></label>
+        <label>Contact description<input id="contactDescription" type="text" placeholder="We are here to help with your order."></label>
+      </div>
+      <div class="form-actions"><button class="cta" type="submit">SAVE CONTACT DETAILS</button></div>
+      <p class="form-message" id="contactMessage" role="status"></p>
+    </form>
+  </section>
+  <section class="admin-panel">
+    <div class="panel-heading"><div><div class="eyebrow">LIVE ORDER ALERTS</div><h2>Order notifications<span>.</span></h2></div></div>
+    <p class="contact-admin-help">Allow browser notifications on this device. New orders created in another tab of this same browser will appear here automatically. Cross-device notifications will be activated after Firebase setup.</p>
+    <div class="form-actions"><button class="cta" id="enableNotificationsButton" type="button">ENABLE NOTIFICATIONS</button><span id="notificationPermission" class="notification-permission">Permission not requested</span></div>
+    <p class="form-message" id="notificationMessage" role="status"></p>
+  </section>
+</section>
+<section aria-label="Homepage" class="admin-view" data-view-panel="homepage"><section class="admin-panel">
 <div class="panel-heading">
 <div><div class="eyebrow">HOMEPAGE CONTENT</div><h2>Edit main homepage<span>.</span></h2></div>
 <span class="panel-step">HERO &amp; BANNER</span>
 </div>
 <form class="product-form" id="homeForm">
 <h3 class="editor-subtitle">Main hero section</h3>
-<label>Small heading<input id="heroEyebrow" placeholder="HOSSNY® / NEW SEASON" type="text"/></label>
+<label>Small heading<input id="heroEyebrow" placeholder="Hossny® / NEW SEASON" type="text"/></label>
 <label>Main headline<input id="heroTitle" placeholder="OWN YOUR STREET." type="text"/></label>
 <label>Description<textarea id="heroDescription" placeholder="Write the main homepage description..." rows="3"></textarea></label>
 <div class="form-grid">
@@ -141,6 +176,6 @@
 </form>
 <div class="home-sections-manager" id="homeSectionsManager"></div>
 </section></section><p class="admin-warning"><strong>Demo mode:</strong> Product changes are saved in this browser's LocalStorage only. They are not shared with customers on other devices yet. We will connect Firebase next for shared products, secure admin login and customer orders.</p></div></div></main>
-<footer class="admin-footer"><span>© 2026 HOSSNY®. ALL RIGHTS RESERVED.</span><a href="index.html">BACK TO STORE</a></footer>
+<footer class="admin-footer"><span>© 2026 Hossny®. ALL RIGHTS RESERVED.</span><a href="index.html">BACK TO STORE</a></footer>
 </body>
 </html>
