@@ -145,7 +145,7 @@ function renderCustomerPage(){
  if(!customerPage)return;
  const page=location.hash.replace('#','');
  const ar=(localStorage.getItem('hossnyLanguage')||'en')==='ar';
- const storeParts=[document.querySelector('.announcement'),document.querySelector('.hero'),document.querySelector('#shop'),document.getElementById('customHomeSections'),document.querySelector('.banner'),document.querySelector('.benefits')];
+ const storeParts=[document.querySelector('.announcement'),document.querySelector('.hero'),document.querySelector('#shop'),document.getElementById('customHomeSections'),document.querySelector('.banner'),document.querySelector('.benefits'),document.getElementById('contact-us')];
  const isCustomer=['order-confirmed','track-order','my-orders'].includes(page);
  document.body.classList.toggle('customer-page-active',isCustomer);
  storeParts.forEach(el=>{if(el)el.style.display=isCustomer?'none':''});

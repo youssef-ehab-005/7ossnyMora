@@ -88,3 +88,6 @@ The footer Hossny logo now has an explicit high-specificity style so generic foo
 ## Firebase scaffold
 - `firebase/firebase-config.example.js` and `firebase/firebase-client.js` are starter files for the next Firebase phase.
 - `firebase-messaging-sw.js` is a placeholder and does not send push notifications yet.
+
+## Hossny browser tab icon
+Added a branded Hossny favicon: orange square with a dark H monogram, matching the supplied logo reference. Both storefront and admin pages use SVG favicon with PNG and Apple touch icon fallbacks. The favicon URL includes a version query to help bypass stale browser cache.
