@@ -1,5 +1,21 @@
 (() => {
   const STORAGE_KEY = "hossnyProducts";
+  const CATEGORY_KEY = "hossnyCategories";
+  const HOME_KEY = "hossnyHome";
+  const SECTIONS_KEY = "hossnyHomeSections";
+  const defaultCategories = [
+    {id:"cat-shirts",name:"T-Shirts",nameAr:"تيشيرتات"},
+    {id:"cat-hoodies",name:"Hoodies",nameAr:"هوديز"},
+    {id:"cat-pants",name:"Pants",nameAr:"بناطيل"},
+    {id:"cat-accessories",name:"Accessories",nameAr:"إكسسوارات"}
+  ];
+  let categories = loadJSON(CATEGORY_KEY, defaultCategories);
+  let homeContent = loadJSON(HOME_KEY, {});
+  let customSections = loadJSON(SECTIONS_KEY, []);
+  function loadJSON(key, fallback) {
+    try { const v = JSON.parse(localStorage.getItem(key)); return v ?? fallback; }
+    catch { return fallback; }
+  }
   const fallbackImage = "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80";
   const seedProducts = [
     {id:1,name:"OVERSIZED CORE TEE",cat:"T-Shirts",price:590,tag:"BEST SELLER",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=80"},
@@ -30,6 +46,70 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
     render();
   }
+
+  function saveCategories() {
+    localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
+    populateProductCategories();
+    renderCategories();
+    render();
+  }
+  function populateProductCategories() {
+    const select = $("productCategory");
+    const current = select.value;
+    select.innerHTML = categories.map(c => `<option value="${escapeHTML(c.name)}">${escapeHTML(c.name)}</option>`).join("");
+    if (categories.some(c => c.name === current)) select.value = current;
+  }
+  function renderCategories() {
+    $("categoriesManager").innerHTML = categories.length ? categories.map(c => `
+      <div class="category-row">
+        <div><strong>${escapeHTML(c.name)}</strong><small>${escapeHTML(c.nameAr || "Arabic name not set")}</small></div>
+        <div class="category-actions"><button type="button" data-category-edit="${escapeHTML(c.id)}">EDIT</button><button type="button" class="delete-btn" data-category-delete="${escapeHTML(c.id)}">DELETE</button></div>
+      </div>`).join("") : '<div class="empty-state">No categories yet. Add your first category above.</div>';
+    $("totalCategories").textContent = categories.length;
+  }
+  function loadHomeForm() {
+    const defaults = {
+      heroEyebrow:"HOSSNY® / NEW SEASON 026", heroTitle:"OWN\\nYOUR\\nSTREET.",
+      heroDescription:"Built for the everyday. Made to stand out. Discover the latest essentials from HOSSNY streetwear.",
+      heroButton:"SHOP THE DROP", heroImage:"",
+      collectionEyebrow:"THE COLLECTION", collectionTitle:"FRESH PICKS", collectionDescription:"Everyday pieces. Different energy.",
+      bannerEyebrow:"NOT HERE TO BLEND IN", bannerTitle:"MAKE\\nYOUR\\nMOVE.",
+      bannerDescription:"Streetwear is more than what you wear. It's how you show up. Find your fit and make it yours.",
+      bannerButton:"EXPLORE THE COLLECTION", bannerImage:""
+    };
+    homeContent = {...defaults, ...homeContent};
+    Object.entries(homeContent).forEach(([key,value]) => { const field = $(key); if(field) field.value = value || ""; });
+  }
+  function saveHomeForm(event) {
+    event.preventDefault();
+    ["heroEyebrow","heroTitle","heroDescription","heroButton","heroImage","collectionEyebrow","collectionTitle","collectionDescription","bannerEyebrow","bannerTitle","bannerDescription","bannerButton","bannerImage"].forEach(id => homeContent[id] = $(id).value.trim());
+    localStorage.setItem(HOME_KEY, JSON.stringify(homeContent));
+    $("homeMessage").textContent = "Homepage content saved in this browser. Refresh the storefront to preview it.";
+  }
+  function renderCustomSections() {
+    $("homeSectionsManager").innerHTML = customSections.length ? customSections.map((s,i) => `
+      <div class="category-row">
+        <div><strong>${escapeHTML(s.title)}</strong><small>${escapeHTML(s.description || "No description")} · ${s.image ? "Image added" : "No image"}</small></div>
+        <div class="category-actions"><button type="button" data-section-edit="${i}">EDIT</button><button type="button" class="delete-btn" data-section-delete="${i}">DELETE</button></div>
+      </div>`).join("") : '<div class="empty-state">No extra homepage sections yet.</div>';
+  }
+  function resetSectionForm() {
+    $("sectionForm").reset();
+    $("sectionForm").dataset.editIndex = "";
+    $("sectionForm").querySelector('button[type="submit"]').textContent = "ADD HOMEPAGE SECTION";
+  }
+  function fillSectionForm(index) {
+    const s = customSections[index]; if(!s) return;
+    $("sectionTitle").value = s.title || "";
+    $("sectionTitleAr").value = s.titleAr || "";
+    $("sectionDescription").value = s.description || "";
+    $("sectionImage").value = s.image || "";
+    $("sectionButton").value = s.button || "";
+    $("sectionForm").dataset.editIndex = String(index);
+    $("sectionForm").querySelector('button[type="submit"]').textContent = "UPDATE HOMEPAGE SECTION";
+    window.scrollTo({top:document.getElementById("sectionForm").getBoundingClientRect().top + window.scrollY - 30,behavior:"smooth"});
+  }
+
   function render() {
     const query = $("searchProducts").value.trim().toLowerCase();
     const filtered = products.filter(product =>
@@ -171,6 +251,86 @@
        </tr>`).join("")}</tbody>
       </table>` : '<div class="empty-state">No orders have been placed yet.</div>';
   }
+
+
+  populateProductCategories();
+  renderCategories();
+  loadHomeForm();
+  renderCustomSections();
+
+  $("categoryForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const name = $("categoryName").value.trim();
+    const nameAr = $("categoryNameAr").value.trim();
+    if (!name) return;
+    if (categories.some(c => c.name.toLowerCase() === name.toLowerCase())) {
+      $("categoryMessage").textContent = "This category already exists."; return;
+    }
+    categories.push({id:"cat-"+Date.now(),name,nameAr});
+    localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
+    $("categoryForm").reset();
+    $("categoryMessage").textContent = "Category added. It is now available in the product form and storefront filters.";
+    saveCategories();
+  });
+  $("categoriesManager").addEventListener("click", event => {
+    const edit = event.target.closest("[data-category-edit]");
+    const del = event.target.closest("[data-category-delete]");
+    if (edit) {
+      const category = categories.find(c => c.id === edit.dataset.categoryEdit);
+      if (!category) return;
+      const newName = prompt("Category name:", category.name);
+      if (newName === null || !newName.trim()) return;
+      const newArabic = prompt("Arabic category name (optional):", category.nameAr || "") ?? category.nameAr;
+      const oldName = category.name;
+      category.name = newName.trim();
+      category.nameAr = newArabic.trim();
+      products = products.map(p => p.cat === oldName ? {...p,cat:category.name} : p);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(products));
+      saveCategories();
+    }
+    if (del) {
+      const category = categories.find(c => c.id === del.dataset.categoryDelete);
+      if (!category) return;
+      if (products.some(p => p.cat === category.name)) {
+        alert("Move or edit the products in this category before deleting it."); return;
+      }
+      if (!confirm(`Delete category "${category.name}"?`)) return;
+      categories = categories.filter(c => c.id !== category.id);
+      saveCategories();
+    }
+  });
+  $("homeForm").addEventListener("submit", saveHomeForm);
+  $("resetHomeButton").addEventListener("click", () => {
+    if (!confirm("Reset homepage text and image settings to defaults?")) return;
+    localStorage.removeItem(HOME_KEY); homeContent = {}; loadHomeForm();
+    $("homeMessage").textContent = "Homepage settings reset. Save them to apply defaults.";
+  });
+  $("sectionForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const item = {
+      title:$("sectionTitle").value.trim(), titleAr:$("sectionTitleAr").value.trim(),
+      description:$("sectionDescription").value.trim(), image:$("sectionImage").value.trim(),
+      button:$("sectionButton").value.trim()
+    };
+    const editIndex = $("sectionForm").dataset.editIndex;
+    if (editIndex !== "") customSections[Number(editIndex)] = item;
+    else customSections.push(item);
+    localStorage.setItem(SECTIONS_KEY, JSON.stringify(customSections));
+    resetSectionForm(); renderCustomSections();
+    $("sectionMessage").textContent = "Homepage section saved. Refresh the storefront to preview it.";
+  });
+  $("homeSectionsManager").addEventListener("click", event => {
+    const edit = event.target.closest("[data-section-edit]");
+    const del = event.target.closest("[data-section-delete]");
+    if (edit) fillSectionForm(Number(edit.dataset.sectionEdit));
+    if (del) {
+      const index = Number(del.dataset.sectionDelete);
+      if (!confirm("Delete this homepage section?")) return;
+      customSections.splice(index,1);
+      localStorage.setItem(SECTIONS_KEY, JSON.stringify(customSections));
+      renderCustomSections();
+    }
+  });
 
   $("todayLabel").textContent = new Date().toLocaleDateString("en-GB", {
     weekday:"short", day:"2-digit", month:"short", year:"numeric"

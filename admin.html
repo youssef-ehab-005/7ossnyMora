@@ -6,9 +6,15 @@
 <title>HOSSNY® — Admin</title>
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/admin.css">
+<link rel="stylesheet" href="assets/css/ui.css">
+<script src="assets/js/ui.js" defer></script>
 <script src="assets/js/admin.js" defer></script>
 </head>
 <body class="admin-page">
+<div class="global-tools" aria-label="Display settings">
+  <button class="ui-tool theme-toggle" type="button" data-theme-toggle aria-label="Switch theme" title="Switch theme"><span class="theme-icon">☾</span></button>
+  <button class="ui-tool language-toggle" type="button" data-language-toggle aria-label="Change language">AR</button>
+</div>
 <div class="announcement">HOSSNY® / STORE MANAGEMENT</div>
 <header class="admin-topbar">
   <a class="logo" href="index.html">HOSSNY<span>®</span></a>
@@ -56,6 +62,80 @@
       </div>
       <p class="form-message" id="formMessage" role="status"></p>
     </form>
+  </section>
+
+
+  <section class="admin-panel">
+    <div class="panel-heading">
+      <div><div class="eyebrow">STORE CATEGORIES</div><h2>Manage categories<span>.</span></h2></div>
+    </div>
+    <form id="categoryForm" class="product-form category-form">
+      <div class="form-grid">
+        <label>New category name<input id="categoryName" type="text" placeholder="e.g. Shoes / Caps" maxlength="35" required></label>
+        <label>Category name in Arabic (optional)<input id="categoryNameAr" type="text" placeholder="مثال: أحذية"></label>
+      </div>
+      <button class="cta" type="submit">ADD CATEGORY</button>
+      <p class="form-message" id="categoryMessage" role="status"></p>
+    </form>
+    <div id="categoriesManager" class="category-manager"></div>
+  </section>
+
+  <section class="admin-panel">
+    <div class="panel-heading">
+      <div><div class="eyebrow">HOMEPAGE CONTENT</div><h2>Edit main homepage<span>.</span></h2></div>
+      <span class="panel-step">HERO & BANNER</span>
+    </div>
+    <form id="homeForm" class="product-form">
+      <h3 class="editor-subtitle">Main hero section</h3>
+      <label>Small heading<input id="heroEyebrow" type="text" placeholder="HOSSNY® / NEW SEASON"></label>
+      <label>Main headline<input id="heroTitle" type="text" placeholder="OWN YOUR STREET."></label>
+      <label>Description<textarea id="heroDescription" rows="3" placeholder="Write the main homepage description..."></textarea></label>
+      <div class="form-grid">
+        <label>Button text<input id="heroButton" type="text" placeholder="SHOP THE DROP"></label>
+        <label>Hero background image URL<input id="heroImage" type="url" placeholder="https://..."></label>
+      </div>
+      <hr class="editor-divider">
+      <h3 class="editor-subtitle">Collection section</h3>
+      <div class="form-grid">
+        <label>Small heading<input id="collectionEyebrow" type="text" placeholder="THE COLLECTION"></label>
+        <label>Section title<input id="collectionTitle" type="text" placeholder="FRESH PICKS"></label>
+      </div>
+      <label>Collection description<input id="collectionDescription" type="text" placeholder="Everyday pieces. Different energy."></label>
+      <hr class="editor-divider">
+      <h3 class="editor-subtitle">Second banner section</h3>
+      <label>Small heading<input id="bannerEyebrow" type="text" placeholder="NOT HERE TO BLEND IN"></label>
+      <label>Banner headline<input id="bannerTitle" type="text" placeholder="MAKE YOUR MOVE."></label>
+      <label>Banner description<textarea id="bannerDescription" rows="3" placeholder="Write banner description..."></textarea></label>
+      <div class="form-grid">
+        <label>Button text<input id="bannerButton" type="text" placeholder="EXPLORE THE COLLECTION"></label>
+        <label>Banner background image URL<input id="bannerImage" type="url" placeholder="https://..."></label>
+      </div>
+      <div class="form-actions">
+        <button class="cta" type="submit">SAVE HOMEPAGE</button>
+        <button class="outline" type="button" id="resetHomeButton">RESET DEFAULTS</button>
+      </div>
+      <p class="form-message" id="homeMessage" role="status"></p>
+    </form>
+  </section>
+
+  <section class="admin-panel">
+    <div class="panel-heading">
+      <div><div class="eyebrow">EXTRA HOMEPAGE BLOCKS</div><h2>Create homepage sections<span>.</span></h2></div>
+    </div>
+    <form id="sectionForm" class="product-form">
+      <div class="form-grid">
+        <label>Section title<input id="sectionTitle" type="text" placeholder="e.g. OUR NEW DROP" required></label>
+        <label>Arabic title (optional)<input id="sectionTitleAr" type="text" placeholder="مثال: أحدث مجموعة"></label>
+      </div>
+      <label>Section description<textarea id="sectionDescription" rows="2" placeholder="Write section content..."></textarea></label>
+      <div class="form-grid">
+        <label>Image URL<input id="sectionImage" type="url" placeholder="https://..."></label>
+        <label>Button text (optional)<input id="sectionButton" type="text" placeholder="DISCOVER MORE"></label>
+      </div>
+      <button class="cta" type="submit">ADD HOMEPAGE SECTION</button>
+      <p class="form-message" id="sectionMessage" role="status"></p>
+    </form>
+    <div id="homeSectionsManager" class="home-sections-manager"></div>
   </section>
 
   <section class="admin-panel inventory-panel">

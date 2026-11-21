@@ -48,3 +48,27 @@ body.admin-page{background:#f4f3ef;min-height:100vh}
 .customer-summary{font-size:10px;font-weight:800;letter-spacing:.5px;color:#777;margin:-8px 0 14px}
 .customer-address{display:block;color:#888;font-size:9px;font-weight:500;margin-top:4px;max-width:230px;white-space:normal}
 .customer-orders-panel .inventory-table{min-width:760px}
+
+.category-form{margin-bottom:16px}
+.category-manager,.home-sections-manager{border-top:1px solid #eee;margin-top:18px}
+.category-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 4px;border-bottom:1px solid #eee}
+.category-row strong{display:block;font-size:12px}
+.category-row small{display:block;color:#888;font-size:10px;margin-top:4px}
+.category-actions{display:flex;gap:7px}
+.category-actions button{padding:8px 10px;font-size:9px;font-weight:900;background:#111;color:#fff}
+.category-actions .delete-btn{background:#f1e9e6;color:#a33}
+.editor-subtitle{font-size:12px;font-weight:900;letter-spacing:.7px;margin:18px 0 14px}
+.editor-divider{border:0;border-top:1px solid #eee;margin:20px 0}
+.product-form textarea{width:100%;margin-top:7px;padding:13px;border:1px solid #deddd7;background:#fafaf8;color:#111;resize:vertical;font:inherit;font-size:12px}
+body.dark-theme .category-row,body.dark-theme .editor-divider,body.dark-theme .category-manager,body.dark-theme .home-sections-manager{border-color:#383838}
+body.dark-theme .product-form textarea{background:#252525;color:#fff;border-color:#555}
+.custom-home-block{display:grid;grid-template-columns:1fr 1fr;min-height:360px;background:#efeee9;margin:0 3vw 28px;overflow:hidden}
+.custom-home-copy{padding:clamp(28px,6vw,80px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start}
+.custom-home-copy h2{font:900 clamp(30px,5vw,58px)/.98 'Space Grotesk';letter-spacing:-2px;margin:16px 0}
+.custom-home-copy p{font-size:13px;line-height:1.8;max-width:460px;color:#666}
+.custom-home-copy .outline{display:inline-block;text-decoration:none;padding:14px 18px;margin-top:12px}
+.custom-home-image{min-height:300px}
+.custom-home-image img{width:100%;height:100%;min-height:300px;object-fit:cover;display:block}
+body.dark-theme .custom-home-block{background:#202020;color:#f4f3ef}
+body.dark-theme .custom-home-copy p{color:#aaa}
+@media(max-width:700px){.custom-home-block{grid-template-columns:1fr;margin:0 4vw 22px}.custom-home-image{order:-1;min-height:220px}.custom-home-image img{min-height:220px}.category-row{align-items:flex-start;flex-direction:column}.category-actions{width:100%}}

@@ -43,3 +43,13 @@ Open `admin.html` or click **ADMIN** in the storefront footer. It supports addin
 
 ## Customer details (demo)
 The checkout demo now collects customer name, phone, optional email, and delivery address. Submitted demo orders are stored in the same browser's LocalStorage. The Admin page shows customer records, order counts, total spend, and order history. This data is local to the browser and is not a real shared customer database until Firebase is connected.
+
+## Appearance and language
+The shared top-right controls switch between light/dark themes and English/Arabic. The selected settings are saved in LocalStorage and apply to both storefront and admin pages. Brand name HOSSNY remains unchanged.
+
+## Category and homepage editor
+- Admin can add, rename, and delete product categories; categories become available in the product editor and storefront filters.
+- Categories cannot be deleted while products still use them; reassign those products first.
+- Admin can edit hero headline, description, button, background image, collection heading, and promotional banner text/image.
+- Admin can add multiple custom homepage sections with a title, description, image URL, and optional button.
+- These settings are currently stored in this browser's LocalStorage demo store. For changes to appear across devices and customers, connect Firebase in the next phase.
