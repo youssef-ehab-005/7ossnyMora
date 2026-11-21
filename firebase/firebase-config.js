@@ -1,7 +1,7 @@
 // Hossny Firebase Web App configuration.
 // This is public client configuration, not a service-account credential.
 export const firebaseConfig = {
-  apiKey: "AIzaSyA5_WBSEWv0UGCteMQ1_TxWet80F86YR4",
+  apiKey: "AIzaSyA5_WBSEWv0UG0CteMQ1_TxWet80F86YR4",
   authDomain: "hossny-fea31.firebaseapp.com",
   projectId: "hossny-fea31",
   storageBucket: "hossny-fea31.firebasestorage.app",
