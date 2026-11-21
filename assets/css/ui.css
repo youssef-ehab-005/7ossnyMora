@@ -117,3 +117,18 @@ body.admin-page.dark-theme .admin-panel .outline {
   color: #f4f3ef;
   border-color: #777;
 }
+
+
+/* Keep HOSSNY wordmark visible in both color themes */
+body.dark-theme .nav .logo,
+body.dark-theme .logo {
+  color: #f4f3ef !important;
+}
+body:not(.dark-theme) .nav .logo,
+body:not(.dark-theme) .logo {
+  color: #111 !important;
+}
+body.dark-theme .logo span,
+body:not(.dark-theme) .logo span {
+  color: var(--accent) !important;
+}

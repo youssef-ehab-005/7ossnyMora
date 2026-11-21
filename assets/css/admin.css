@@ -160,3 +160,11 @@ body.is-ar .order-total{text-align:start}
  .recent-order-row{grid-template-columns:1fr auto;gap:8px}
  .recent-status{grid-column:1/-1}
 }
+
+/* Order deletion action */
+.order-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap;justify-content:flex-end}
+.delete-order-btn{padding:9px 12px;border:1px solid #a83c36;background:transparent;color:#d85b54;font-size:9px;font-weight:900;letter-spacing:1px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.delete-order-btn:hover{background:#a8322c;border-color:#a8322c;color:#fff}
+body.dark-theme .delete-order-btn{color:#ff827a;border-color:#9e4540}
+body.dark-theme .delete-order-btn:hover{background:#a8322c;color:#fff}
+@media(max-width:650px){.order-actions{width:100%;justify-content:stretch}.order-actions>*{flex:1}}

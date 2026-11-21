@@ -82,15 +82,68 @@ function placeDemoOrder(){
  const name=document.getElementById('checkoutName').value.trim(),phone=document.getElementById('checkoutPhone').value.trim(),email=document.getElementById('checkoutEmail').value.trim(),address=document.getElementById('checkoutAddress').value.trim();
  if(!name||!phone||!address){document.getElementById('checkoutMessage').textContent='Please enter your name, phone number and address.';return}
  const orders=JSON.parse(localStorage.getItem('hossnyOrders')||'[]');
- orders.unshift({id:'HS-'+Date.now(),customer:{name,phone,email,address},items:cart.map(p=>({id:p.id,name:p.name,price:p.price,size:p.size,quantity:1,img:p.img})),total:cart.reduce((a,p)=>a+p.price,0),paymentMethod:document.getElementById('checkoutPayment').value,status:'Pending',createdAt:new Date().toISOString()});
- localStorage.setItem('hossnyOrders',JSON.stringify(orders));cart=[];render();
- document.getElementById('drawerContent').innerHTML='<h3>THANK YOU!</h3><p>Your demo order has been saved in this browser. HOSSNY will contact you to confirm it.</p>';setTimeout(closePanels,2800);
+ const order={id:'HS-'+Date.now().toString().slice(-8),customer:{name,phone,email,address},items:cart.map(p=>({id:p.id,name:p.name,price:p.price,size:p.size,quantity:1,img:p.img})),total:cart.reduce((a,p)=>a+p.price,0),paymentMethod:document.getElementById('checkoutPayment').value,status:'Pending',createdAt:new Date().toISOString(),updatedAt:new Date().toISOString()};
+ orders.unshift(order);
+ localStorage.setItem('hossnyOrders',JSON.stringify(orders));
+ localStorage.setItem('hossnyLastOrderId',order.id);
+ cart=[];render();closePanels();
+ location.hash='order-confirmed';
 }
-function trackOrder(){alert('Order tracking will be enabled after connecting the order database.')}
+function trackOrder(){location.hash='track-order'}
 function openAdmin(){location.href='admin.html'}
 function closeAdmin(){document.getElementById('admin')?.classList.remove('show')}
 function addProduct(){/* Products are managed from admin.html. */}
 function renderAdmin(){/* Products are managed from admin.html. */}
 function deleteProduct(id){products=products.filter(p=>p.id!==id);localStorage.setItem('hossnyProducts',JSON.stringify(products));render()}
+
+const customerPage = document.getElementById('customerPages');
+function getOrders(){try{return JSON.parse(localStorage.getItem('hossnyOrders')||'[]')}catch{return []}}
+function formatOrderDate(value){return value?new Date(value).toLocaleString((localStorage.getItem('hossnyLanguage')||'en')==='ar'?'ar-EG':'en-GB'):'—'}
+function statusIndex(status){return ({Pending:0,Processing:1,Shipped:2,Delivered:3,Cancelled:-1})[status||'Pending']??0}
+function orderStatusLabel(status,ar){
+ const labels={Pending:ar?'تم استلام الطلب':'Order Placed',Processing:ar?'جاري التجهيز':'Processing',Shipped:ar?'تم الشحن':'Shipped',Delivered:ar?'تم التوصيل':'Delivered',Cancelled:ar?'تم الإلغاء':'Cancelled'};
+ return labels[status]||labels.Pending;
+}
+function orderCard(order,compact=false){
+ const ar=(localStorage.getItem('hossnyLanguage')||'en')==='ar';
+ const items=(order.items||[]).map(item=>`<div class="customer-order-item"><img src="${safeText(item.img||'')}" alt="${safeText(item.name)}"><div><strong>${safeText(item.name)}</strong><small>${ar?'المقاس':'Size'}: ${safeText(item.size||'—')} · ${ar?'الكمية':'Qty'}: ${Number(item.quantity||1)}</small><b>${money(item.price)}</b></div></div>`).join('');
+ return `<article class="customer-order-card"><div class="customer-order-head"><div><span class="customer-order-id">${ar?'طلب':'ORDER'} #${safeText(order.id)}</span><small>${ar?'تاريخ الطلب':'Placed'}: ${formatOrderDate(order.createdAt)}</small></div><span class="customer-status status-${String(order.status||'Pending').toLowerCase()}">${orderStatusLabel(order.status,ar)}</span></div><div class="customer-order-items">${items}</div><div class="customer-order-foot"><strong>${ar?'الإجمالي':'TOTAL'}: ${money(order.total)}</strong><button class="customer-track-btn" onclick="showOrderTracking('${safeText(order.id)}')">${ar?'تتبع الطلب':'TRACK ORDER'} ↗</button></div></article>`;
+}
+function renderCustomerPage(){
+ if(!customerPage)return;
+ const page=location.hash.replace('#','');
+ const ar=(localStorage.getItem('hossnyLanguage')||'en')==='ar';
+ const storeParts=[document.querySelector('.announcement'),document.querySelector('.hero'),document.querySelector('#shop'),document.getElementById('customHomeSections'),document.querySelector('.banner'),document.querySelector('.benefits')];
+ const isCustomer=['order-confirmed','track-order','my-orders'].includes(page);
+ document.body.classList.toggle('customer-page-active',isCustomer);
+ storeParts.forEach(el=>{if(el)el.style.display=isCustomer?'none':''});
+ customerPage.style.display=isCustomer?'block':'none';
+ if(!isCustomer){customerPage.innerHTML='';return}
+ if(page==='order-confirmed'){
+  const id=localStorage.getItem('hossnyLastOrderId'),order=getOrders().find(o=>o.id===id);
+  customerPage.innerHTML=`<section class="customer-confirm"><div class="confirm-mark">✓</div><div class="eyebrow">${ar?'تم استلام طلبك':'HOSSNY® / ORDER RECEIVED'}</div><h1>${ar?'تم تأكيد الطلب':'Order Confirmed'}<span>.</span></h1><p>${ar?'شكراً لتسوقك من HOSSNY. طلبك قيد المراجعة والتجهيز.':'Thank you for shopping with HOSSNY. Your order is being reviewed and prepared with care.'}</p><strong class="confirm-order-number">${ar?'رقم الطلب':'Order'} #${safeText(id||'—')}</strong><div class="confirm-actions"><button class="cta" onclick="showOrderTracking('${safeText(id||'')}')">${ar?'تتبع الطلب':'TRACK ORDER'} ↗</button><a class="outline" href="index.html#shop">${ar?'متابعة التسوق':'KEEP SHOPPING'}</a></div>${order?orderCard(order,true):''}</section>`;
+ }else if(page==='track-order'){
+  customerPage.innerHTML=`<section class="customer-page-inner"><div class="eyebrow">${ar?'تحديثات الطلب':'HOSSNY® / ORDER UPDATES'}</div><h1>${ar?'تتبع طلبك':'Track your order'}<span>.</span></h1><p>${ar?'أدخل رقم الطلب ورقم الهاتف المستخدم عند الشراء.':'Enter your order number and the phone number used at checkout.'}</p><form class="customer-lookup" id="trackLookup"><input id="trackId" required placeholder="${ar?'رقم الطلب':'Order number (e.g. HS-12345678)'}"><input id="trackPhone" required type="tel" placeholder="${ar?'رقم الهاتف':'Checkout phone number'}"><button class="cta" type="submit">${ar?'عرض حالة الطلب':'FIND ORDER'}</button></form><div id="trackingResult"></div></section>`;
+  document.getElementById('trackLookup').addEventListener('submit',e=>{e.preventDefault();const id=document.getElementById('trackId').value.trim(),phone=document.getElementById('trackPhone').value.replace(/\s/g,''),order=getOrders().find(o=>o.id.toLowerCase()===id.toLowerCase()&&(o.customer?.phone||'').replace(/\s/g,'')===phone);document.getElementById('trackingResult').innerHTML=order?trackingMarkup(order,ar):`<p class="lookup-error">${ar?'لم يتم العثور على طلب مطابق. تأكد من رقم الطلب والهاتف.':'No matching order found. Check the order number and phone number.'}</p>`});
+ }else{
+  customerPage.innerHTML=`<section class="customer-page-inner"><div class="eyebrow">${ar?'سجل مشترياتك':'HOSSNY® / ORDER HISTORY'}</div><h1>${ar?'طلباتي':'My Orders'}<span>.</span></h1><p>${ar?'أدخل رقم الهاتف الذي استخدمته عند إتمام الطلب لعرض طلباتك.':'Enter the phone number used at checkout to view your orders.'}</p><form class="customer-lookup" id="myOrdersLookup"><input id="historyPhone" required type="tel" placeholder="${ar?'رقم الهاتف':'Checkout phone number'}"><button class="cta" type="submit">${ar?'عرض طلباتي':'VIEW MY ORDERS'}</button></form><div id="historyResult"></div></section>`;
+  document.getElementById('myOrdersLookup').addEventListener('submit',e=>{e.preventDefault();const phone=document.getElementById('historyPhone').value.replace(/\s/g,''),orders=getOrders().filter(o=>(o.customer?.phone||'').replace(/\s/g,'')===phone);document.getElementById('historyResult').innerHTML=orders.length?orders.map(o=>orderCard(o)).join(''):`<p class="lookup-error">${ar?'لا توجد طلبات مرتبطة بهذا الرقم على هذا المتصفح.':'No orders were found for this phone number in this browser.'}</p>`});
+ }
+ window.scrollTo({top:0,behavior:'instant'});
+}
+function trackingMarkup(order,ar){
+ const stages=['Pending','Processing','Shipped','Delivered'],idx=statusIndex(order.status);
+ const timeline=order.status==='Cancelled'?`<div class="tracking-cancelled">${ar?'تم إلغاء هذا الطلب':'This order was cancelled'}.</div>`:stages.map((s,i)=>`<div class="tracking-stage ${i<=idx?'completed':''} ${i===idx?'current':''}"><span>${i<idx?'✓':i+1}</span><small>${orderStatusLabel(s,ar)}</small></div>`).join('');
+ return `<article class="tracking-card"><div class="customer-order-head"><div><span class="customer-order-id">#${safeText(order.id)}</span><small>${formatOrderDate(order.createdAt)}</small></div><span class="customer-status status-${String(order.status||'Pending').toLowerCase()}">${orderStatusLabel(order.status,ar)}</span></div><div class="tracking-timeline">${timeline}</div><div class="customer-order-items">${(order.items||[]).map(item=>`<div class="customer-order-item"><img src="${safeText(item.img||'')}" alt="${safeText(item.name)}"><div><strong>${safeText(item.name)}</strong><small>${ar?'المقاس':'Size'}: ${safeText(item.size||'—')} · ${ar?'الكمية':'Qty'}: ${Number(item.quantity||1)}</small><b>${money(item.price)}</b></div></div>`).join('')}</div><div class="tracking-total"><strong>${ar?'الإجمالي':'Order total'}</strong><strong>${money(order.total)}</strong></div></article>`;
+}
+function showOrderTracking(id){
+ const order=getOrders().find(o=>o.id===id);
+ if(!order){location.hash='track-order';return}
+ location.hash='track-order';
+ setTimeout(()=>{const result=document.getElementById('trackingResult');if(result)result.innerHTML=trackingMarkup(order,(localStorage.getItem('hossnyLanguage')||'en')==='ar');},0);
+}
+window.addEventListener('hashchange',renderCustomerPage);
+renderCustomerPage();
+
 applyHomeContent();
 render();

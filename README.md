@@ -56,3 +56,13 @@ The shared top-right controls switch between light/dark themes and English/Arabi
 
 ## Admin dashboard layout and order images
 The admin page now uses a sidebar navigation (Dashboard, Products, Categories, Orders, Customers, Homepage). The sidebar follows page direction: left in English and right in Arabic. Orders display customer details, product thumbnails, sizes, quantities, totals, and editable fulfillment status. New checkout orders save each product image URL with the order item. Existing older orders attempt to retrieve the image from the current product catalogue.
+
+## Customer order confirmation and tracking
+- After checkout, the storefront displays an Order Confirmed view with the new order number and a Track Order action.
+- Customers can open My Orders and look up orders using the checkout phone number, or track one order using its order ID plus phone number.
+- Tracking reflects the same order status values edited by the admin: Pending, Processing, Shipped, Delivered, and Cancelled.
+- Product thumbnails, size, quantity, price, and order total are shown in the customer order views.
+- IMPORTANT: this GitHub Pages build stores orders in browser LocalStorage for demo/testing only. Customers on different devices cannot see shared orders until Firebase/Firestore and secure customer verification are connected.
+
+## Delete orders
+The Orders admin view includes a DELETE ORDER action on each order. It asks for confirmation, then removes the selected order from the browser's `hossnyOrders` LocalStorage collection and refreshes the order list, customer summary, dashboard recent orders, and order count. This is local-demo deletion; when Firebase is connected, the same action must be implemented with authenticated Firestore delete permissions.

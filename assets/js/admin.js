@@ -255,9 +255,12 @@
       <article class="order-card">
         <div class="order-card-head">
           <div><span class="order-id">${escapeHTML(order.id)}</span><small>${order.createdAt ? new Date(order.createdAt).toLocaleString("en-GB") : "—"}</small></div>
-          <select class="order-status-select" data-order-status="${escapeHTML(order.id)}">
-            ${["Pending","Processing","Shipped","Delivered","Cancelled"].map(status => `<option value="${status}" ${(order.status || "Pending") === status ? "selected" : ""}>${status}</option>`).join("")}
-          </select>
+          <div class="order-actions">
+            <select class="order-status-select" data-order-status="${escapeHTML(order.id)}">
+              ${["Pending","Processing","Shipped","Delivered","Cancelled"].map(status => `<option value="${status}" ${(order.status || "Pending") === status ? "selected" : ""}>${status}</option>`).join("")}
+            </select>
+            <button type="button" class="delete-order-btn" data-delete-order="${escapeHTML(order.id)}" aria-label="Delete order ${escapeHTML(order.id)}">DELETE ORDER</button>
+          </div>
         </div>
         <div class="order-card-body">
           <div class="order-customer"><strong>${escapeHTML(order.customer?.name || "Customer")}</strong><span>${escapeHTML(order.customer?.phone || "—")}</span><span>${escapeHTML(order.customer?.email || "—")}</span><small>${escapeHTML(order.customer?.address || "—")}</small></div>
@@ -284,6 +287,14 @@
     localStorage.setItem("hossnyOrders", JSON.stringify(orders));
     renderOrders(orders);
     renderDashboardOrders(orders);
+  }
+  function deleteOrder(id) {
+    const order = loadOrders().find(item => item.id === id);
+    if (!order) return;
+    if (!window.confirm(`Delete order ${id} permanently? This action cannot be undone.`)) return;
+    const orders = loadOrders().filter(item => item.id !== id);
+    localStorage.setItem("hossnyOrders", JSON.stringify(orders));
+    renderCustomers();
   }
 
 
@@ -381,11 +392,18 @@
   document.querySelectorAll("[data-go-view]").forEach(button => button.addEventListener("click", () => showAdminView(button.dataset.goView)));
   $("sidebarMobileToggle").addEventListener("click", () => document.body.classList.toggle("sidebar-open"));
   document.addEventListener("click", event => {
-    const statusSelect = event.target.closest("[data-order-status]");
-    if (statusSelect) updateOrderStatus(statusSelect.dataset.orderStatus, statusSelect.value);
+    const deleteButton = event.target.closest("[data-delete-order]");
+    if (deleteButton) {
+      deleteOrder(deleteButton.dataset.deleteOrder);
+      return;
+    }
     if (document.body.classList.contains("sidebar-open") && !event.target.closest(".admin-sidebar") && !event.target.closest("#sidebarMobileToggle")) {
       document.body.classList.remove("sidebar-open");
     }
+  });
+  document.addEventListener("change", event => {
+    const statusSelect = event.target.closest("[data-order-status]");
+    if (statusSelect) updateOrderStatus(statusSelect.dataset.orderStatus, statusSelect.value);
   });
 
   $("todayLabel").textContent = new Date().toLocaleDateString("en-GB", {
